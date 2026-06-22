@@ -1,16 +1,13 @@
-import { createTheme } from '@mui/material/styles'; 
-export const appTheme= createTheme  ({ 
-  palette: { 
-    mode: 'light', 
-    primary: { 
-      main: '#250000', 
-    }, 
-    secondary: { 
-      main: '#ff4545', 
-    }, 
-    primaryLight: { 
-        main: "#95C7DE", 
-        contrastText: "#F3AA60"  
-      } 
-  }, 
+import { createTheme } from '@mui/material/styles';
+
+export const appTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: 'rgb(255, 255, 255)',      // azul marino → header y elementos principales
+    },
+    secondary: {
+      main: '#ffffff',      // rojo carmesí → footer y acentos
+    },
+  },
 });
