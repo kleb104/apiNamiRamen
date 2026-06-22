@@ -184,6 +184,9 @@ function Header() {
             src={logo}
             alt="Nami Ramen"
             sx={{
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
               display: { xs: 'flex', md: 'none' },
               height: 44,
               width: 'auto',

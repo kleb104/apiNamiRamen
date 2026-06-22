@@ -97,7 +97,7 @@ export function Home() {
               mb: 1.5,
             }}
           >
-            Ramen &amp; Sushi · Cocina japonesa
+            Ramen &amp; Sushi · Cocina asiatica
           </Typography>
 
           <Typography
@@ -140,7 +140,7 @@ export function Home() {
             }}
           >
             Ingredientes frescos, caldos elaborados durante horas y sabores
-            que te transportan directo a Japón.
+            exquisitos.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 1.5, justifyContent: 'center', flexWrap: 'wrap' }}>

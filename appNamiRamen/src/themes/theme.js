@@ -7,7 +7,7 @@ export const appTheme = createTheme({
       main: 'rgb(255, 255, 255)',      // azul marino → header y elementos principales
     },
     secondary: {
-      main: '#ffffff',      // rojo carmesí → footer y acentos
+      main: '#1B2A4A',      // rojo carmesí → footer y acentos
     },
   },
 });

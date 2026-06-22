@@ -8,25 +8,24 @@ export function Footer() {
     <Toolbar 
       sx={{ 
         px: 2, 
-        position: "fixed", 
         bottom: 0, 
         width: "100%", 
         height: "4.5rem", 
-        backgroundColor: "primary.main", 
+        backgroundColor: "secondary.main", 
         paddingTop: "1rem", 
-        paddingBottom: "1rem", 
+        paddingBottom: "1rem"
       }} 
     > 
       {/* Comentario */} 
       <Container> 
         <Grid container rowSpacing={1}> 
           <Grid size={12}> 
-            <Typography align="center" textColor="white" variant="subtitle1"> 
-              ISW-613
+            <Typography align="center" textColor="primary.main" variant="subtitle1"> 
+              ISW-613 - Nami ramen
             </Typography> 
           </Grid> 
           <Grid size={12}> 
-            <Typography align="center" textColor="white" variant="body1"> 
+            <Typography align="center" color="primary.main" variant="body1"> 
               {`${new Date().getFullYear()}`} 
             </Typography> 
           </Grid> 

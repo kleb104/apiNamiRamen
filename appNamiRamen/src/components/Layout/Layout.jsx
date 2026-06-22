@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import Header from './Header';
 import { Footer } from './Footer';
 import { Toaster } from 'react-hot-toast';
@@ -27,16 +27,7 @@ export function Layout({ children }) {
         }}
       >
         <Toaster position="bottom-right" />
-        <Container
-          maxWidth="xl"
-          sx={{
-            flexGrow: 1,
-            py: 2,
-            pb: '5.5rem',
-          }}
-        >
-          {children}
-        </Container>
+        {children}
       </Box>
       <Footer />
     </Box>
