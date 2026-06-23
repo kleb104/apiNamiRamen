@@ -229,27 +229,26 @@ export function Home() {
       </Box>
 
       {/* ── BANDA FINAL ── */}
-      <Box sx={{ bgcolor: '#1B2A4A', py: 5, px: 3, textAlign: 'center' }}>
+      <Box sx={{ py: 5, px: 3, textAlign: 'center' }}>
         <Typography
           component="h2"
-          sx={{ fontFamily: '"Noto Serif JP", serif', fontSize: 22, fontWeight: 700, color: '#fff', mb: 0.5 }}
+          sx={{ fontFamily: '"Noto Serif JP", serif', fontSize: 22, fontWeight: 700, mb: 0.5 }}
         >
           Pedí ahora o visitanos
         </Typography>
-        <Typography sx={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', fontWeight: 300, mb: 2.5 }}>
+        <Typography sx={{ fontSize: 14, fontWeight: 300, mb: 2.5 }}>
           También hacemos entregas a domicilio en toda la zona
         </Typography>
         <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
-          {['Lun – Vie · 11:00 – 21:00', 'Sáb – Dom · 12:00 – 22:00', '📞 +506 8888-0000'].map((texto) => (
+          {['Lun – Vie · 11:00 – 21:00', 'Sáb – Dom · 12:00 – 22:00', '+506 8373-6801'].map((texto) => (
             <Box
               key={texto}
               sx={{
-                bgcolor: 'rgba(255,255,255,0.08)',
-                border: '0.5px solid rgba(255,255,255,0.2)',
+                bgcolor: '#f3d2cf',
+                border: '0.5px solid #C0392B',
                 borderRadius: '100px',
                 px: 2, py: 0.75,
                 fontSize: 12,
-                color: 'rgba(255,255,255,0.75)',
               }}
             >
               {texto}
