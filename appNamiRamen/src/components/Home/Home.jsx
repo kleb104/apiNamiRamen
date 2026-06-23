@@ -5,33 +5,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
-const menuItems = [
-  {
-    icon: '🍜',
-    nombre: 'Tonkotsu Nami',
-    descripcion: 'Caldo de cerdo 18 horas, chashu, huevo marinado y nori',
-    precio: '₡6,500',
-  },
-  {
-    icon: '🍣',
-    nombre: 'Omakase Roll',
-    descripcion: 'Salmón, aguacate, queso crema y salsa ponzu',
-    precio: '₡5,800',
-  },
-  {
-    icon: '🥟',
-    nombre: 'Gyoza Nami',
-    descripcion: '6 piezas de gyoza de cerdo y jengibre con salsa ponzu',
-    precio: '₡3,200',
-  },
-  {
-    icon: '🦑',
-    nombre: 'Takoyaki',
-    descripcion: 'Bolitas de pulpo con salsa okonomiyaki y katsuobushi',
-    precio: '₡3,600',
-  },
-];
-
 const pilares = [
   {
     icon: '🌊',

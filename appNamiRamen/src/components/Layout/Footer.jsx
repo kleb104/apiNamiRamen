@@ -56,8 +56,8 @@ export function Footer() {
                 maxWidth: 220,
               }}
             >
-              Cocina japonesa elaborada con ingredientes frescos y técnicas
-              tradicionales. Cada plato, una experiencia.
+              Cocina asiática elaborada con ingredientes frescos y técnicas
+              tradicionales. Cada plato es una experiencia distinta.
             </Typography>
           </Grid>
 
@@ -112,7 +112,7 @@ export function Footer() {
             </Typography>
 
             {[
-              { label: 'Teléfono', value: '+506 8888-0000' },
+              { label: 'Teléfono', value: '+506 8373-6801' },
               { label: 'Correo', value: 'info@namiramen.cr' },
               { label: 'Dirección', value: 'San José, Costa Rica' },
             ].map(({ label, value }) => (
