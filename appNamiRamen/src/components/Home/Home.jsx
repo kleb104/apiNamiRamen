@@ -188,57 +188,6 @@ export function Home() {
         </Box>
       </Box>
 
-      {/* ── LO MÁS PEDIDO ── */}
-      <Box sx={{ py: 6, px: 3 }}>
-        <Typography
-          sx={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.3em', color: '#C0392B', textTransform: 'uppercase', textAlign: 'center', mb: 0.5 }}
-        >
-          Nuestros favoritos
-        </Typography>
-        <Typography
-          component="h2"
-          sx={{ fontFamily: '"Noto Serif JP", serif', fontSize: 26, fontWeight: 700, textAlign: 'center', mb: 0.5 }}
-        >
-          Lo más pedido
-        </Typography>
-        <Typography sx={{ fontSize: 14, color: 'text.secondary', textAlign: 'center', mb: 3 }}>
-          Platos que nuestros clientes piden una y otra vez
-        </Typography>
-
-        <Grid container spacing={2} sx={{ maxWidth: 640, mx: 'auto' }}>
-          {menuItems.map((item) => (
-            <Grid key={item.nombre} size={{ xs: 12, sm: 6 }}>
-              <Box
-                sx={{
-                  position: 'relative',
-                  bgcolor: 'background.paper',
-                  border: '0.5px solid',
-                  borderColor: 'divider',
-                  borderRadius: 3,
-                  p: 2,
-                  textAlign: 'center',
-                  overflow: 'hidden',
-                }}
-              >
-                {/* Acento rojo superior */}
-                <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, bgcolor: '#C0392B' }} />
-
-                <Typography sx={{ fontSize: 28, mb: 1, display: 'block' }}>{item.icon}</Typography>
-                <Typography sx={{ fontFamily: '"Noto Serif JP", serif', fontSize: 15, fontWeight: 700, mb: 0.5 }}>
-                  {item.nombre}
-                </Typography>
-                <Typography sx={{ fontSize: 12, color: 'text.secondary', lineHeight: 1.5, mb: 1.5 }}>
-                  {item.descripcion}
-                </Typography>
-                <Typography sx={{ fontSize: 14, fontWeight: 500, color: '#C0392B' }}>
-                  {item.precio}
-                </Typography>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-
       {/* ── FILOSOFÍA ── */}
       <Box sx={{ bgcolor: 'background.default', borderTop: '0.5px solid', borderBottom: '0.5px solid', borderColor: 'divider', py: 6, px: 3 }}>
         <Typography
