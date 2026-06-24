@@ -26,7 +26,7 @@ class RolModel
     {
         try {
             $vSql = "SELECT * FROM roles WHERE id = ?";
-            $vResultado = $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            $vResultado = $this->enlace->ExecuteSQL($vSql, [$id]);
             return $vResultado;
         } catch (Exception $e) {
             handleException($e);
@@ -38,7 +38,7 @@ class RolModel
     {
         try {
             $vSql = "INSERT INTO roles (nombre_rol) VALUES (?)";
-            $vResultado = $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_rol]);
+            $vResultado = $this->enlace->ExecuteSQL($vSql, [$nombre_rol]);
             return $vResultado; // retorna el id insertado
         } catch (Exception $e) {
             handleException($e);
@@ -50,7 +50,7 @@ class RolModel
     {
         try {
             $vSql = "UPDATE roles SET nombre_rol = ? WHERE id = ?";
-            $vResultado = $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_rol, $id]);
+            $vResultado = $this->enlace->ExecuteSQL($vSql, [$nombre_rol, $id]);
             return $vResultado; // filas afectadas
         } catch (Exception $e) {
             handleException($e);
@@ -62,7 +62,7 @@ class RolModel
     {
         try {
             $vSql = "DELETE FROM roles WHERE id = ?";
-            $vResultado = $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            $vResultado = $this->enlace->ExecuteSQL($vSql, [$id]);
             return $vResultado;
         } catch (Exception $e) {
             handleException($e);

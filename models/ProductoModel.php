@@ -40,7 +40,7 @@ class ProductoModel
     {
         try {
             $vSql = "SELECT * FROM productos WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -54,7 +54,7 @@ class ProductoModel
                      FROM producto_ingredientes pi
                      JOIN ingredientes i ON pi.id_ingrediente = i.id
                      WHERE pi.id_producto = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -65,7 +65,7 @@ class ProductoModel
         try {
             $vSql = "INSERT INTO productos (nombre, descripcion, precio, imagen_url, id_categoria) 
                      VALUES (?, ?, ?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre, $descripcion, $precio, $imagen_url, $id_categoria]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre, $descripcion, $precio, $imagen_url, $id_categoria]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -77,7 +77,7 @@ class ProductoModel
             $vSql = "UPDATE productos 
                      SET nombre = ?, descripcion = ?, precio = ?, imagen_url = ?, id_categoria = ?, activo = ?
                      WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre, $descripcion, $precio, $imagen_url, $id_categoria, $activo, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre, $descripcion, $precio, $imagen_url, $id_categoria, $activo, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -88,7 +88,7 @@ class ProductoModel
     {
         try {
             $vSql = "UPDATE productos SET activo = FALSE WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -98,7 +98,7 @@ class ProductoModel
     {
         try {
             $vSql = "DELETE FROM productos WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -109,7 +109,7 @@ class ProductoModel
     {
         try {
             $vSql = "INSERT INTO producto_ingredientes (id_producto, id_ingrediente) VALUES (?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_producto, $id_ingrediente]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_producto, $id_ingrediente]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -120,7 +120,7 @@ class ProductoModel
     {
         try {
             $vSql = "DELETE FROM producto_ingredientes WHERE id_producto = ? AND id_ingrediente = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_producto, $id_ingrediente]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_producto, $id_ingrediente]);
         } catch (Exception $e) {
             handleException($e);
         }

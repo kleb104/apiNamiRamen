@@ -25,7 +25,7 @@ class ComboModel
     {
         try {
             $vSql = "SELECT * FROM combos WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -39,7 +39,7 @@ class ComboModel
                      FROM combo_productos cp
                      JOIN productos p ON cp.id_producto = p.id
                      WHERE cp.id_combo = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_combo]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_combo]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -49,7 +49,7 @@ class ComboModel
     {
         try {
             $vSql = "INSERT INTO combos (nombre_combo, precio_especial, id_categoria) VALUES (?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_combo, $precio_especial, $id_categoria]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_combo, $precio_especial, $id_categoria]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -59,7 +59,7 @@ class ComboModel
     {
         try {
             $vSql = "UPDATE combos SET nombre_combo = ?, precio_especial = ?, id_categoria = ?, activo = ? WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_combo, $precio_especial, $id_categoria, $activo, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_combo, $precio_especial, $id_categoria, $activo, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -69,7 +69,7 @@ class ComboModel
     {
         try {
             $vSql = "DELETE FROM combos WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -80,7 +80,7 @@ class ComboModel
     {
         try {
             $vSql = "INSERT INTO combo_productos (id_combo, id_producto, cantidad) VALUES (?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_combo, $id_producto, $cantidad]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_combo, $id_producto, $cantidad]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -91,7 +91,7 @@ class ComboModel
     {
         try {
             $vSql = "DELETE FROM combo_productos WHERE id_combo = ? AND id_producto = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_combo, $id_producto]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_combo, $id_producto]);
         } catch (Exception $e) {
             handleException($e);
         }

@@ -24,7 +24,7 @@ class DireccionEntregaModel
     {
         try {
             $vSql = "SELECT * FROM direcciones_entrega WHERE id_pedido = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_pedido]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_pedido]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -34,7 +34,7 @@ class DireccionEntregaModel
     {
         try {
             $vSql = "INSERT INTO direcciones_entrega (id_pedido, direccion_exacta, detalles_adicionales) VALUES (?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_pedido, $direccion_exacta, $detalles_adicionales]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_pedido, $direccion_exacta, $detalles_adicionales]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -44,7 +44,7 @@ class DireccionEntregaModel
     {
         try {
             $vSql = "UPDATE direcciones_entrega SET direccion_exacta = ?, detalles_adicionales = ? WHERE id_pedido = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$direccion_exacta, $detalles_adicionales, $id_pedido]);
+            return $this->enlace->ExecuteSQL($vSql, [$direccion_exacta, $detalles_adicionales, $id_pedido]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -54,7 +54,7 @@ class DireccionEntregaModel
     {
         try {
             $vSql = "DELETE FROM direcciones_entrega WHERE id_pedido = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_pedido]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_pedido]);
         } catch (Exception $e) {
             handleException($e);
         }

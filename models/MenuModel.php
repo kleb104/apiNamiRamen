@@ -23,7 +23,7 @@ class MenuModel
     {
         try {
             $vSql = "SELECT * FROM menus WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -39,7 +39,7 @@ class MenuModel
                      LEFT JOIN productos p ON mi.id_producto = p.id
                      LEFT JOIN combos c ON mi.id_combo = c.id
                      WHERE mi.id_menu = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_menu]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_menu]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -50,7 +50,7 @@ class MenuModel
         try {
             $vSql = "INSERT INTO menus (nombre_menu, fecha_inicio, fecha_fin, hora_apertura, hora_cierre, creado_por)
                      VALUES (?, ?, ?, ?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_menu, $fecha_inicio, $fecha_fin, $hora_apertura, $hora_cierre, $creado_por]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_menu, $fecha_inicio, $fecha_fin, $hora_apertura, $hora_cierre, $creado_por]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -62,7 +62,7 @@ class MenuModel
             $vSql = "UPDATE menus 
                      SET nombre_menu = ?, fecha_inicio = ?, fecha_fin = ?, hora_apertura = ?, hora_cierre = ?, activo = ?
                      WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_menu, $fecha_inicio, $fecha_fin, $hora_apertura, $hora_cierre, $activo, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_menu, $fecha_inicio, $fecha_fin, $hora_apertura, $hora_cierre, $activo, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -72,7 +72,7 @@ class MenuModel
     {
         try {
             $vSql = "DELETE FROM menus WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -83,7 +83,7 @@ class MenuModel
     {
         try {
             $vSql = "INSERT INTO menu_items (id_menu, id_producto, id_combo) VALUES (?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_menu, $id_producto, $id_combo]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_menu, $id_producto, $id_combo]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -93,7 +93,7 @@ class MenuModel
     {
         try {
             $vSql = "DELETE FROM menu_items WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_item]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_item]);
         } catch (Exception $e) {
             handleException($e);
         }

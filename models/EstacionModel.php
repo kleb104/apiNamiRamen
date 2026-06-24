@@ -23,7 +23,7 @@ class EstacionModel
     {
         try {
             $vSql = "SELECT * FROM estaciones WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -33,7 +33,7 @@ class EstacionModel
     {
         try {
             $vSql = "INSERT INTO estaciones (nombre_estacion) VALUES (?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_estacion]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_estacion]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -43,7 +43,7 @@ class EstacionModel
     {
         try {
             $vSql = "UPDATE estaciones SET nombre_estacion = ? WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_estacion, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_estacion, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -53,7 +53,7 @@ class EstacionModel
     {
         try {
             $vSql = "DELETE FROM estaciones WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }

@@ -17,20 +17,20 @@ require_once "controllers/core/Request.php";
 require_once "controllers/core/Response.php";
 
 /***--- Agregar todos los modelos*/
-require_once "controllers/CategoriaModel.php";
-require_once "controllers/ComboModel.php";
-require_once "controllers/DireccionEntregaModel.php";
-require_once "controllers/EstacionModel.php";
-require_once "controllers/IngredienteModel.php";
-require_once "controllers/MenuModel.php";
-require_once "controllers/PagoModel.php";
-require_once "controllers/PedidoModel.php";
-require_once "controllers/PedidoDetalleModel.php";
-require_once "controllers/ProcesoPreparacionModel.php";
-require_once "controllers/ProductoModel.php";
-require_once "controllers/RolModel.php";
-require_once "controllers/SeguimientoCocinaModel.php";
-require_once "controllers/UsuarioModel.php";
+require_once "models/CategoriaModel.php";
+require_once "models/ComboModel.php";
+require_once "models/DireccionEntregaModel.php";
+require_once "models/EstacionModel.php";
+require_once "models/IngredienteModel.php";
+require_once "models/MenuModel.php";
+require_once "models/PagoModel.php";
+require_once "models/PedidoModel.php";
+require_once "models/PedidoDetalleModel.php";
+require_once "models/ProcesoPreparacionModel.php";
+require_once "models/ProductoModel.php";
+require_once "models/RolModel.php";
+require_once "models/SeguimientoCocinaModel.php";
+require_once "models/UsuarioModel.php";
 
 /***--- Agregar todos los controladores*/
 require_once "controllers/CategoriaController.php";

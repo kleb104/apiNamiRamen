@@ -23,7 +23,7 @@ class PedidoDetalleModel
     {
         try {
             $vSql = "SELECT * FROM pedido_detalles WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -38,7 +38,7 @@ class PedidoDetalleModel
                      LEFT JOIN productos p ON pd.id_producto = p.id
                      LEFT JOIN combos c ON pd.id_combo = c.id
                      WHERE pd.id_pedido = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_pedido]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_pedido]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -49,7 +49,7 @@ class PedidoDetalleModel
         try {
             $vSql = "INSERT INTO pedido_detalles (id_pedido, id_producto, id_combo, cantidad, observaciones, precio_unitario)
                      VALUES (?, ?, ?, ?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_pedido, $id_producto, $id_combo, $cantidad, $observaciones, $precio_unitario]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_pedido, $id_producto, $id_combo, $cantidad, $observaciones, $precio_unitario]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -59,7 +59,7 @@ class PedidoDetalleModel
     {
         try {
             $vSql = "UPDATE pedido_detalles SET cantidad = ?, observaciones = ? WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$cantidad, $observaciones, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$cantidad, $observaciones, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -69,7 +69,7 @@ class PedidoDetalleModel
     {
         try {
             $vSql = "DELETE FROM pedido_detalles WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }

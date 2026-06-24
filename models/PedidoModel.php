@@ -27,7 +27,7 @@ class PedidoModel
     {
         try {
             $vSql = "SELECT * FROM pedidos WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -38,7 +38,7 @@ class PedidoModel
     {
         try {
             $vSql = "SELECT * FROM pedidos WHERE id_cliente = ? ORDER BY fecha_hora DESC";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_cliente]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_cliente]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -49,7 +49,7 @@ class PedidoModel
     {
         try {
             $vSql = "SELECT * FROM pedidos WHERE estado_pedido = ? ORDER BY fecha_hora ASC";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$estado_pedido]);
+            return $this->enlace->ExecuteSQL($vSql, [$estado_pedido]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -60,7 +60,7 @@ class PedidoModel
         try {
             $vSql = "INSERT INTO pedidos (id_cliente, id_empleado, metodo_entrega, subtotal, impuesto, costo_envio, total)
                      VALUES (?, ?, ?, ?, ?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_cliente, $id_empleado, $metodo_entrega, $subtotal, $impuesto, $costo_envio, $total]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_cliente, $id_empleado, $metodo_entrega, $subtotal, $impuesto, $costo_envio, $total]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -71,7 +71,7 @@ class PedidoModel
     {
         try {
             $vSql = "UPDATE pedidos SET estado_pedido = ? WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$estado_pedido, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$estado_pedido, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -83,7 +83,7 @@ class PedidoModel
             $vSql = "UPDATE pedidos 
                      SET id_empleado = ?, metodo_entrega = ?, estado_pedido = ?, subtotal = ?, impuesto = ?, costo_envio = ?, total = ?
                      WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_empleado, $metodo_entrega, $estado_pedido, $subtotal, $impuesto, $costo_envio, $total, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_empleado, $metodo_entrega, $estado_pedido, $subtotal, $impuesto, $costo_envio, $total, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -93,7 +93,7 @@ class PedidoModel
     {
         try {
             $vSql = "DELETE FROM pedidos WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }

@@ -23,7 +23,7 @@ class SeguimientoCocinaModel
     {
         try {
             $vSql = "SELECT * FROM seguimiento_cocina WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -38,7 +38,7 @@ class SeguimientoCocinaModel
                      JOIN pedido_detalles pd ON sc.id_pedido_detalle = pd.id
                      WHERE sc.id_estacion = ? AND sc.estado_estacion != 'Terminado'
                      ORDER BY sc.id ASC";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_estacion]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_estacion]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -48,7 +48,7 @@ class SeguimientoCocinaModel
     {
         try {
             $vSql = "INSERT INTO seguimiento_cocina (id_pedido_detalle, id_estacion) VALUES (?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_pedido_detalle, $id_estacion]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_pedido_detalle, $id_estacion]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -61,7 +61,7 @@ class SeguimientoCocinaModel
             $vSql = "UPDATE seguimiento_cocina 
                      SET estado_estacion = 'En preparación', tiempo_inicio = NOW(), id_usuario_cocina = ?
                      WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_usuario_cocina, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_usuario_cocina, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -72,7 +72,7 @@ class SeguimientoCocinaModel
     {
         try {
             $vSql = "UPDATE seguimiento_cocina SET estado_estacion = 'Terminado', tiempo_fin = NOW() WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -82,7 +82,7 @@ class SeguimientoCocinaModel
     {
         try {
             $vSql = "DELETE FROM seguimiento_cocina WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }

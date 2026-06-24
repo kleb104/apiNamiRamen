@@ -18,7 +18,7 @@ class ProcesoPreparacionModel
                      JOIN estaciones e ON pp.id_estacion = e.id
                      WHERE pp.id_producto = ?
                      ORDER BY pp.orden_paso ASC";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_producto]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_producto]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -28,7 +28,7 @@ class ProcesoPreparacionModel
     {
         try {
             $vSql = "INSERT INTO procesos_preparacion (id_producto, id_estacion, orden_paso) VALUES (?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_producto, $id_estacion, $orden_paso]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_producto, $id_estacion, $orden_paso]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -38,7 +38,7 @@ class ProcesoPreparacionModel
     {
         try {
             $vSql = "UPDATE procesos_preparacion SET orden_paso = ? WHERE id_producto = ? AND id_estacion = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$orden_paso, $id_producto, $id_estacion]);
+            return $this->enlace->ExecuteSQL($vSql, [$orden_paso, $id_producto, $id_estacion]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -48,7 +48,7 @@ class ProcesoPreparacionModel
     {
         try {
             $vSql = "DELETE FROM procesos_preparacion WHERE id_producto = ? AND id_estacion = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_producto, $id_estacion]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_producto, $id_estacion]);
         } catch (Exception $e) {
             handleException($e);
         }

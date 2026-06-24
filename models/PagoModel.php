@@ -23,7 +23,7 @@ class PagoModel
     {
         try {
             $vSql = "SELECT * FROM pagos WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -34,7 +34,7 @@ class PagoModel
     {
         try {
             $vSql = "SELECT * FROM pagos WHERE id_pedido = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_pedido]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_pedido]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -44,7 +44,7 @@ class PagoModel
     {
         try {
             $vSql = "INSERT INTO pagos (id_pedido, metodo_pago, monto_pagado, vuelto) VALUES (?, ?, ?, ?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id_pedido, $metodo_pago, $monto_pagado, $vuelto]);
+            return $this->enlace->ExecuteSQL($vSql, [$id_pedido, $metodo_pago, $monto_pagado, $vuelto]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -54,7 +54,7 @@ class PagoModel
     {
         try {
             $vSql = "UPDATE pagos SET metodo_pago = ?, monto_pagado = ?, vuelto = ? WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$metodo_pago, $monto_pagado, $vuelto, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$metodo_pago, $monto_pagado, $vuelto, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -64,7 +64,7 @@ class PagoModel
     {
         try {
             $vSql = "DELETE FROM pagos WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }

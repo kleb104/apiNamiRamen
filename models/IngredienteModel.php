@@ -23,7 +23,7 @@ class IngredienteModel
     {
         try {
             $vSql = "SELECT * FROM ingredientes WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -33,7 +33,7 @@ class IngredienteModel
     {
         try {
             $vSql = "INSERT INTO ingredientes (nombre_ingrediente) VALUES (?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_ingrediente]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_ingrediente]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -43,7 +43,7 @@ class IngredienteModel
     {
         try {
             $vSql = "UPDATE ingredientes SET nombre_ingrediente = ? WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_ingrediente, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_ingrediente, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -53,7 +53,7 @@ class IngredienteModel
     {
         try {
             $vSql = "DELETE FROM ingredientes WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }

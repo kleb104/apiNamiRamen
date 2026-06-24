@@ -23,7 +23,7 @@ class CategoriaModel
     {
         try {
             $vSql = "SELECT * FROM categorias WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -33,7 +33,7 @@ class CategoriaModel
     {
         try {
             $vSql = "INSERT INTO categorias (nombre_categoria) VALUES (?)";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_categoria]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_categoria]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -43,7 +43,7 @@ class CategoriaModel
     {
         try {
             $vSql = "UPDATE categorias SET nombre_categoria = ? WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$nombre_categoria, $id]);
+            return $this->enlace->ExecuteSQL($vSql, [$nombre_categoria, $id]);
         } catch (Exception $e) {
             handleException($e);
         }
@@ -53,7 +53,7 @@ class CategoriaModel
     {
         try {
             $vSql = "DELETE FROM categorias WHERE id = ?";
-            return $this->enlace->ExecuteSQLPrepared($vSql, [$id]);
+            return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);
         }
