@@ -21,6 +21,7 @@ require_once "models/CategoriaModel.php";
 require_once "models/ComboModel.php";
 require_once "models/DireccionEntregaModel.php";
 require_once "models/EstacionModel.php";
+require_once "models/ImageModel.php";
 require_once "models/IngredienteModel.php";
 require_once "models/MenuModel.php";
 require_once "models/PagoModel.php";
