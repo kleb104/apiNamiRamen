@@ -7,6 +7,7 @@ import App from './App';
 import { Home } from './components/Home/Home';
 import { PageNotFound } from './components/Home/PageNotFound';
 
+
 const rutas = createBrowserRouter([
   {
     element: <App />,
