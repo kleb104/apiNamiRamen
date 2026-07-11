@@ -10,13 +10,13 @@ class ProductoController
         $this->model = new ProductoModel();
     }
 
-    public function index()
+    public function get()
     {
         $data = $this->model->all();
         echo json_encode(["error" => false, "data" => $data]);
     }
 
-    public function indexActivos()
+    public function activos()
     {
         $data = $this->model->allActivos();
         echo json_encode(["error" => false, "data" => $data]);

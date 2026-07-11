@@ -15,91 +15,157 @@ ListCardProductos.propTypes = {
 };
 
 export function ListCardProductos({ data }) {
-  // La API devuelve { error: false, data: [...] }
   const productos = data?.data ?? [];
 
   return (
-    <Box sx={{ py: 4, px: 2 }}>
+    <Box sx={{ py: 4, px: 3, maxWidth: 1300, mx: 'auto' }}>
       <Typography
         component="h2"
         sx={{
           fontFamily: '"Noto Serif JP", serif',
-          fontSize: 24,
+          fontSize: 22,
           fontWeight: 700,
           color: '#1B2A4A',
           mb: 3,
-          textAlign: 'center',
         }}
       >
         Nuestro Menú
       </Typography>
 
-      <Grid container spacing={3} sx={{ maxWidth: 1100, mx: 'auto' }}>
+      <Grid container spacing={2}>
         {productos.map((producto) => (
-          <Grid key={producto.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+          <Grid
+            item
+            key={producto.id}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+          >
             <Card
               sx={{
-                height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                border: '0.5px solid',
-                borderColor: 'divider',
-                borderRadius: 3,
+                height: '100%',
+                width: '20rem',
+                border: '1px solid #e0e0e0',
+                borderRadius: 2,
                 boxShadow: 'none',
-                position: 'relative',
-                overflow: 'hidden',
+                transition: 'box-shadow 0.2s ease',
+                '&:hover': {
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+                },
               }}
             >
-              {/* Acento rojo superior */}
-              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, bgcolor: '#C0392B' }} />
-
+              {/* Imagenes */}
+              <Box
+                sx={{
+                width: '100%',
+                paddingTop: '100%', 
+                position: 'relative',
+                overflow: 'hidden',
+                bgcolor: '#f5f5f5',
+                flexShrink: 0,
+              }}
+            >
               <CardMedia
                 component="img"
-                height="180"
                 image={producto.imagen_url || '/placeholder-food.jpg'}
                 alt={producto.nombre}
-                sx={{ objectFit: 'cover' }}
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
               />
+          </Box>
 
-              <CardContent sx={{ flexGrow: 1, pt: 1.5 }}>
+              {/* Contenido */}
+              <CardContent sx={{ flexGrow: 1, px: 1.5, pt: 1.5, pb: 0.5 }}>
                 <Typography
                   sx={{
-                    fontFamily: '"Noto Serif JP", serif',
-                    fontWeight: 700,
-                    fontSize: 15,
+                    fontSize: 13,
+                    fontWeight: 600,
                     color: '#1B2A4A',
-                    mb: 0.5,
+                    lineHeight: 1.3,
+                    mb: 0.75,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    minHeight: '2.6em',
                   }}
                 >
                   {producto.nombre}
                 </Typography>
-                <Typography
-                  sx={{ fontSize: 12, color: 'text.secondary', lineHeight: 1.5, mb: 1 }}
-                >
-                  {producto.descripcion}
-                </Typography>
-                <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#C0392B' }}>
-                  ₡{Number(producto.precio).toLocaleString('es-CR')}
-                </Typography>
               </CardContent>
 
-              <CardActions sx={{ px: 2, pb: 2 }}>
+              {/* Botones — precio arriba del botón Agregar */}
+              <CardActions
+                sx={{
+                  px: 1.5,
+                  pb: 1.5,
+                  pt: 0.5,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'flex-end',
+                  gap: 1,
+                }}
+              >
                 <Button
                   size="small"
+                  variant="outlined"
                   component={Link}
                   to={`/productos/${producto.id}`}
-                  sx={{ color: '#1B2A4A', fontSize: 12, borderColor: 'rgba(27,42,74,0.3)', '&:hover': { borderColor: '#1B2A4A' } }}
-                  variant="outlined"
+                  sx={{
+                    flex: 1,
+                    fontSize: 11,
+                    color: '#1B2A4A',
+                    borderColor: 'rgba(27,42,74,0.25)',
+                    borderRadius: 1,
+                    py: 0.75,
+                    textTransform: 'none',
+                    '&:hover': { borderColor: '#1B2A4A', bgcolor: 'transparent' },
+                  }}
                 >
                   Ver detalle
                 </Button>
-                <Button
-                  size="small"
-                  sx={{ ml: 'auto', bgcolor: '#C0392B', color: '#fff', fontSize: 12, '&:hover': { bgcolor: '#a93226' } }}
-                  variant="contained"
-                >
-                  Agregar
-                </Button>
+
+                {/* Precio + botón Agregar apilados a la derecha */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, gap: 0.5 }}>
+                  <Typography
+                    sx={{
+                      fontSize: 15,
+                      fontWeight: 700,
+                      color: '#C0392B',
+                      textAlign: 'right',
+                    }}
+                  >
+                    ₡{Number(producto.precio).toLocaleString('es-CR')}
+                  </Typography>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    fullWidth
+                    sx={{
+                      bgcolor: '#C0392B',
+                      color: '#fff',
+                      fontSize: 11,
+                      fontWeight: 600,
+                      borderRadius: 1,
+                      py: 0.75,
+                      textTransform: 'none',
+                      '&:hover': { bgcolor: '#a93226' },
+                    }}
+                  >
+                    Agregar
+                  </Button>
+                </Box>
               </CardActions>
             </Card>
           </Grid>

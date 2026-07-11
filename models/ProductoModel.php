@@ -50,9 +50,9 @@ class ProductoModel
     {
         try {
             $vSql = "SELECT i.id, i.nombre_ingrediente
-                     FROM producto_ingredientes pi
-                     JOIN ingredientes i ON pi.id_ingrediente = i.id
-                     WHERE pi.id_producto = ?";
+                     FROM producto_ingredientes pri
+                     JOIN ingredientes i ON pri.id_ingrediente = i.id
+                     WHERE pri.id_producto = ?";
             return $this->enlace->ExecuteSQL($vSql, [$id]);
         } catch (Exception $e) {
             handleException($e);

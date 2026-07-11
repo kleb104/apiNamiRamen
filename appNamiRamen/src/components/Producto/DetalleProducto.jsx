@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemButton from '@mui/material/ListItemButton';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Chip from '@mui/material/Chip';
@@ -48,7 +48,7 @@ export function DetalleProducto() {
         <Grid container spacing={4}>
 
           {/* Imagen */}
-          <Grid size={5}>
+          <Grid item xs={12} md={5}>
             <Box
               component="img"
               src={producto.imagen_url || '/placeholder-food.jpg'}
@@ -58,7 +58,7 @@ export function DetalleProducto() {
           </Grid>
 
           {/* Información */}
-          <Grid size={7}>
+          <Grid item xs={12} md={7}>
             {/* Categoría */}
             <Chip
               label={producto.nombre_categoria}
