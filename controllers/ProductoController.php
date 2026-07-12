@@ -10,10 +10,23 @@ class ProductoController
         $this->model = new ProductoModel();
     }
 
-    public function get()
+    public function index()
     {
         $data = $this->model->all();
         echo json_encode(["error" => false, "data" => $data]);
+    }
+
+    public function get($id)
+    {
+        $data = $this->model->get($id);
+        if (empty($data)) {
+            http_response_code(404);
+            echo json_encode(["error" => true, "mensaje" => "Producto no encontrado"]);
+            return;
+        }
+        $producto = $data[0];
+        $producto['ingredientes'] = $this->model->getConIngredientes($id);
+        echo json_encode(["error" => false, "data" => $producto]);
     }
 
     public function activos()

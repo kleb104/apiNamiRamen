@@ -18,7 +18,7 @@ export function ListCardProductos({ data }) {
   const productos = data?.data ?? [];
 
   return (
-    <Box sx={{ py: 4, px: 3, maxWidth: 1300, mx: 'auto' }}>
+    <Box sx={{ py: 4, px: 3 }}>
       <Typography
         component="h2"
         sx={{

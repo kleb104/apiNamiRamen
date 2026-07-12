@@ -90,7 +90,15 @@ export default function Header() {
         <AccountCircle />
       </IconButton>
       <Menu
-        sx={{ mt: '45px' }}
+        sx={{
+          mt: '45px',
+          '& .MuiPaper-root': {
+            border: '0.5px solid rgba(27,42,74,0.12)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            borderRadius: '4px',
+            minWidth: 160,
+          },
+        }}
         id={userMenuId}
         anchorEl={anchorElUser}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -98,7 +106,6 @@ export default function Header() {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={Boolean(anchorElUser)}
         onClose={handleUserMenuClose}
-        PaperProps={{ sx: { border: '0.5px solid rgba(27,42,74,0.12)', borderRadius: '4px', minWidth: 160 } }}
       >
         <MenuItem disabled>
           <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>

@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL + 'ProductoController';
 class ProductoService {
   // GET /ProductoController → lista todos
   getProductos() {
-    return axios.get(BASE_URL);
+    return axios.get(BASE_URL + '/index'); // antes llamaba a get() sin id
   }
   // GET /ProductoController/activos → solo activos
   getProductosActivos() {
