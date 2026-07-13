@@ -118,7 +118,6 @@ export function Home() {
 
           <Box sx={{ display: 'flex', gap: 1.5, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button
-              href="/productos"
               variant="contained"
               sx={{
                 bgcolor: '#C0392B',
@@ -129,7 +128,6 @@ export function Home() {
                 fontSize: 13,
                 letterSpacing: '0.05em',
                 '&:hover': { bgcolor: '#a93226' },
-                link: '/productos'
               }}
             >
               Ver menú completo

@@ -23,10 +23,11 @@ export function ListCardProductos({ data }) {
         component="h2"
         sx={{
           fontFamily: '"Noto Serif JP", serif',
-          fontSize: 22,
+          fontSize: 28,
           fontWeight: 700,
           color: '#1B2A4A',
           mb: 3,
+          textAlign: 'center'
         }}
       >
         Nuestro Menú

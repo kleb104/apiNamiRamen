@@ -1,169 +1,206 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
-import { Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import ComboService from '../../services/ComboService';
 
-ListCardCombos.propTypes = {
-  data: PropTypes.object.isRequired,
-};
+export function DetalleCombo() {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-export function ListCardCombos({ data }) {
-  const combos = data?.data ?? [];
+  const [combo, setCombo]   = useState(null);
+  const [error, setError]   = useState('');
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(false);
+    setCombo(null);
+    setError('');
+
+    ComboService.getComboById(id)
+      .then((response) => {
+        const raw  = response.data;
+        const item = raw?.data?.[0] ?? raw?.data ?? raw;
+        setCombo(item);
+        setLoaded(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err);
+        setLoaded(true);
+      });
+  }, [id]);
+
+  if (!loaded)  return <p>Cargando...</p>;
+  if (error)    return <p>Error al cargar el combo.</p>;
+  if (!combo)   return <p>Combo no encontrado.</p>;
 
   return (
-    <Box sx={{ py: 4, px: 3 }}>
-      <Typography
-        component="h2"
-        sx={{
-          fontFamily: '"Noto Serif JP", serif',
-          fontSize: 22,
-          fontWeight: 700,
-          color: '#1B2A4A',
-          mb: 3,
-        }}
-      >
-        Nuestros Combos
-      </Typography>
+    <Container component="main" maxWidth="lg" sx={{ mt: 5, mb: 6 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 6, alignItems: 'flex-start' }}>
 
-      <Grid container spacing={2}>
-        {combos.map((combo) => (
-          <Grid item key={combo.id} xs={12} sm={6} md={4} lg={3} xl={2}>
-            <Card
+        {/* Imagen del producto principal */}
+        <Box sx={{ flex: '0 0 40%', maxWidth: '40%' }}>
+          <Box
+            component="img"
+            src={combo.imagen_principal || '/placeholder-food.jpg'}
+            alt={combo.nombre_combo}
+            sx={{
+              width: '100%',
+              maxHeight: 420,
+              objectFit: 'cover',
+              objectPosition: 'center',
+              borderRadius: 3,
+              display: 'block',
+            }}
+          />
+        </Box>
+
+        {/* Información del combo */}
+        <Box sx={{ flex: '1 1 60%' }}>
+          <Chip
+            label={combo.nombre_categoria ?? 'Combo'}
+            size="small"
+            sx={{
+              mb: 1.5,
+              bgcolor: '#1B2A4A',
+              color: '#fff',
+              fontFamily: '"Noto Serif JP", serif',
+              fontSize: 11,
+              letterSpacing: '0.05em',
+            }}
+          />
+
+          <Typography
+            variant="h4"
+            component="h1"
+            sx={{
+              fontFamily: '"Noto Serif JP", serif',
+              fontWeight: 700,
+              color: '#1B2A4A',
+              mb: 1,
+              lineHeight: 1.2,
+            }}
+          >
+            {combo.nombre_combo}
+          </Typography>
+
+          <Typography sx={{ fontSize: 26, fontWeight: 700, color: '#C0392B', mb: 2 }}>
+            ₡{Number(combo.precio_especial).toLocaleString('es-CR')}
+          </Typography>
+
+          <Divider sx={{ mb: 2.5, borderColor: 'rgba(27,42,74,0.1)' }} />
+
+          {/* Lista de productos del combo */}
+          {combo.productos && combo.productos.length > 0 && (
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(27,42,74,0.5)',
+                  mb: 2,
+                }}
+              >
+                Incluye
+              </Typography>
+
+              <Grid container spacing={1.5}>
+                {combo.productos.map((producto) => (
+                  <Grid item key={producto.id} xs={12} sm={6}>
+                    <Card
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        border: '0.5px solid',
+                        borderColor: producto.es_principal ? '#C0392B' : 'divider',
+                        borderRadius: 2,
+                        boxShadow: 'none',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        image={producto.imagen_url || '/placeholder-food.jpg'}
+                        alt={producto.nombre}
+                        sx={{ width: 70, height: 70, objectFit: 'cover', flexShrink: 0 }}
+                      />
+                      <CardContent sx={{ py: 1, px: 1.5, flexGrow: 1 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.25 }}>
+                          <Typography sx={{ fontSize: 13, fontWeight: 600, color: '#1B2A4A' }}>
+                            {producto.nombre}
+                          </Typography>
+                          {producto.es_principal == 1 && (
+                            <Chip
+                              label="Principal"
+                              size="small"
+                              sx={{ fontSize: 9, height: 16, bgcolor: '#C0392B', color: '#fff' }}
+                            />
+                          )}
+                        </Box>
+                        <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>
+                          x{producto.cantidad}
+                        </Typography>
+                        <Typography sx={{ fontSize: 12, color: '#C0392B', fontWeight: 600 }}>
+                          ₡{Number(producto.precio).toLocaleString('es-CR')}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
+
+          <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
+            <Button
+              variant="contained"
+              size="large"
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                width: '20rem',
-                border: '1px solid #e0e0e0',
-                borderRadius: 2,
-                boxShadow: 'none',
-                transition: 'box-shadow 0.2s ease',
-                '&:hover': { boxShadow: '0 2px 8px rgba(0,0,0,0.12)' },
+                bgcolor: '#C0392B',
+                color: '#fff',
+                px: 4,
+                py: 1.25,
+                fontSize: 14,
+                textTransform: 'none',
+                borderRadius: '2px',
+                '&:hover': { bgcolor: '#a93226' },
               }}
             >
-              {/* Imagen del producto principal */}
-              <Box
-                sx={{
-                  width: '100%',
-                  paddingTop: '100%',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  bgcolor: '#f5f5f5',
-                  flexShrink: 0,
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={combo.imagen_principal || '/placeholder-food.jpg'}
-                  alt={combo.nombre_combo}
-                  sx={{
-                    position: 'absolute',
-                    top: 0, left: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center',
-                  }}
-                />
-                {/* Badge de combo */}
-                <Chip
-                  label="COMBO"
-                  size="small"
-                  sx={{
-                    position: 'absolute',
-                    top: 8, left: 8,
-                    bgcolor: '#1B2A4A',
-                    color: '#fff',
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: '0.1em',
-                  }}
-                />
-              </Box>
-
-              <CardContent sx={{ flexGrow: 1, px: 1.5, pt: 1.5, pb: 0.5 }}>
-                <Typography
-                  sx={{
-                    fontSize: 13,
-                    fontWeight: 600,
-                    color: '#1B2A4A',
-                    lineHeight: 1.3,
-                    mb: 0.75,
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    minHeight: '2.6em',
-                  }}
-                >
-                  {combo.nombre_combo}
-                </Typography>
-              </CardContent>
-
-              <CardActions
-                sx={{
-                  px: 1.5,
-                  pb: 1.5,
-                  pt: 0.5,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'flex-end',
-                  gap: 1,
-                }}
-              >
-                <Button
-                  size="small"
-                  variant="outlined"
-                  component={Link}
-                  to={`/combos/${combo.id}`}
-                  sx={{
-                    flex: 1,
-                    fontSize: 11,
-                    color: '#1B2A4A',
-                    borderColor: 'rgba(27,42,74,0.25)',
-                    borderRadius: 1,
-                    py: 0.75,
-                    textTransform: 'none',
-                    '&:hover': { borderColor: '#1B2A4A', bgcolor: 'transparent' },
-                  }}
-                >
-                  Ver detalle
-                </Button>
-                <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, gap: 0.5 }}>
-                  <Typography sx={{ fontSize: 15, fontWeight: 700, color: '#C0392B', textAlign: 'right' }}>
-                    ₡{Number(combo.precio_especial).toLocaleString('es-CR')}
-                  </Typography>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    fullWidth
-                    sx={{
-                      bgcolor: '#C0392B',
-                      color: '#fff',
-                      fontSize: 11,
-                      fontWeight: 600,
-                      borderRadius: 1,
-                      py: 0.75,
-                      textTransform: 'none',
-                      '&:hover': { bgcolor: '#a93226' },
-                    }}
-                  >
-                    Agregar
-                  </Button>
-                </Box>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+              Agregar combo
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+              onClick={() => navigate(-1)}
+              sx={{
+                color: '#1B2A4A',
+                borderColor: 'rgba(27,42,74,0.3)',
+                borderRadius: '2px',
+                px: 3,
+                py: 1,
+                fontSize: 13,
+                textTransform: 'none',
+                fontFamily: '"Noto Serif JP", serif',
+                '&:hover': { borderColor: '#1B2A4A', bgcolor: 'rgba(27,42,74,0.04)' },
+              }}
+            >
+              Regresar
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Container>
   );
 }
