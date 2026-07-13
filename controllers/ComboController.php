@@ -10,11 +10,31 @@ class ComboController
         $this->model = new ComboModel();
     }
 
+    public function get($id)
+    {
+        $data = $this->model->get($id);
+        if (empty($data)) {
+            http_response_code(404);
+            echo json_encode(["error" => true, "mensaje" => "Combo no encontrado"]);
+            return;
+        }
+        $combo = $data[0];
+        $combo['productos']       = $this->model->getProductos($id);
+        $combo['imagen_principal'] = $this->model->getImagenPrincipal($id);
+        echo json_encode(["error" => false, "data" => $combo]);
+    }
+
+    // También corregí index() para que use el modelo actualizado
     public function index()
     {
         $data = $this->model->all();
+        // Agregar imagen principal a cada combo del listado
+        foreach ($data as &$combo) {
+            $combo['imagen_principal'] = $this->model->getImagenPrincipal($combo['id']);
+        }
         echo json_encode(["error" => false, "data" => $data]);
     }
+
 
     public function show($id)
     {

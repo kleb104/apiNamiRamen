@@ -9,6 +9,8 @@ import { PageNotFound }      from './components/Home/PageNotFound';
 import { CatalogoProductos } from './components/Producto/CatalogoProductos';
 import { DetalleProducto }   from './components/Producto/DetalleProducto';
 import TablaProductos        from './components/Producto/TablaProductos';
+import { CatalogoCombos } from './components/Combo/CatalogoCombos';
+import { DetalleCombo }   from './components/Combo/DetalleCombo';
 
 const rutas = createBrowserRouter([
   {
@@ -19,6 +21,8 @@ const rutas = createBrowserRouter([
       { path: '/productos/:id',    element: <DetalleProducto />   },
       { path: '/admin/productos',  element: <TablaProductos />    },
       { path: '*',                 element: <PageNotFound />      },
+      { path: '/combos',           element: <CatalogoCombos />    },
+      { path: '/combos/:id',       element: <DetalleCombo />      }
     ],
   },
 ]);
