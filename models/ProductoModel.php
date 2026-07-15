@@ -60,6 +60,25 @@ public function getConIngredientes($id)
     }
 }
 
+/* Productos que pertenecen al menú vigente ahora mismo */
+public function allPorMenu()
+{
+    try {
+        $vSql = "SELECT p.*, c.nombre_categoria
+                 FROM productos p
+                 JOIN categorias c ON p.id_categoria = c.id
+                 JOIN menu_items mi ON mi.id_producto = p.id
+                 JOIN menus m ON mi.id_menu = m.id
+                 WHERE m.hora_apertura <= TIME(NOW())
+                   AND m.hora_cierre   >= TIME(NOW())
+                   AND p.activo = TRUE
+                 ORDER BY c.nombre_categoria, p.nombre";
+        return $this->enlace->executeSQL($vSql, null, 'asoc');
+    } catch (Exception $e) {
+        handleException($e);
+    }
+}
+
 public function create($nombre, $descripcion, $precio, $imagen_url, $id_categoria)
 {
     try {

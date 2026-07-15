@@ -41,10 +41,12 @@ export default function Header() {
 
   // Enlaces menú principal
   const navItems = [
-    { name: 'Menú',         link: '/productos'  },
-    { name: 'Combos',       link: '/combos'     },
-    { name: 'Mis pedidos',  link: '/pedidos'    },
-    { name: 'Administración', link: '/admin'    },
+    { name: 'Menú',          link: '/productos'       },
+    { name: 'Combos',        link: '/combos'          },
+    { name: 'Menús',         link: '/menus'           },
+    { name: 'Menú del día',  link: '/menu-disponible' },
+    { name: 'Procesos',      link: '/procesos'        },
+    { name: 'Administración', link: '/admin'          },
   ];
 
   const menuIdPrincipal = 'menu-principal';

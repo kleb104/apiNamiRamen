@@ -10,10 +10,29 @@ class ProcesoPreparacionController
         $this->model = new ProcesoPreparacionModel();
     }
 
-    public function showByProducto($id_producto)
+    public function index()
     {
-        $data = $this->model->getByProducto($id_producto);
+        $data = $this->model->getAllConProducto();
         echo json_encode(["error" => false, "data" => $data]);
+    }
+
+    public function get($id)
+    {
+        $data = $this->model->getByProducto($id);
+        if (empty($data)) {
+            http_response_code(404);
+            echo json_encode(["error" => true, "mensaje" => "Proceso no encontrado"]);
+            return;
+        }
+        echo json_encode([
+            "error" => false,
+            "data"  => [
+                "id_producto"     => $id,
+                "nombre_producto" => $data[0]['nombre_producto'],
+                "cantidad_pasos"  => count($data),
+                "estaciones"      => $data,
+            ]
+        ]);
     }
 
     public function store($input)
@@ -39,12 +58,12 @@ class ProcesoPreparacionController
             return;
         }
         $this->model->update($id_producto, $id_estacion, $input['orden_paso']);
-        echo json_encode(["error" => false, "mensaje" => "Paso de preparación actualizado"]);
+        echo json_encode(["error" => false, "mensaje" => "Paso actualizado"]);
     }
 
     public function destroy($id_producto, $id_estacion)
     {
         $this->model->delete($id_producto, $id_estacion);
-        echo json_encode(["error" => false, "mensaje" => "Paso de preparación eliminado"]);
+        echo json_encode(["error" => false, "mensaje" => "Paso eliminado"]);
     }
 }

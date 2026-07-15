@@ -31,7 +31,13 @@ class ProductoController
 
     public function activos()
     {
-        $data = $this->model->allActivos();
+        $data = $this->model->allPorMenu();
+
+        if (empty($data)) {
+            // Si no hay menú vigente ahora, devolver todos los activos como fallback
+            $data = $this->model->allActivos();
+        }
+
         echo json_encode(["error" => false, "data" => $data]);
     }
 

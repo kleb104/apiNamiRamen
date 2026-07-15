@@ -24,14 +24,20 @@ class ComboController
         echo json_encode(["error" => false, "data" => $combo]);
     }
 
-    // También corregí index() para que use el modelo actualizado
     public function index()
     {
-        $data = $this->model->all();
-        // Agregar imagen principal a cada combo del listado
+        $data = $this->model->allPorMenu();
+
+        if (empty($data)) {
+            // Fallback: si no hay menú activo, mostrar todos los combos activos
+            $data = $this->model->all();
+        }
+
+        // Agregar imagen principal a cada combo
         foreach ($data as &$combo) {
             $combo['imagen_principal'] = $this->model->getImagenPrincipal($combo['id']);
         }
+
         echo json_encode(["error" => false, "data" => $data]);
     }
 

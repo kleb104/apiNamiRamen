@@ -16,7 +16,7 @@ class MenuController
         echo json_encode(["error" => false, "data" => $data]);
     }
 
-    public function show($id)
+    public function get($id)
     {
         $data = $this->model->get($id);
         if (empty($data)) {
@@ -25,7 +25,20 @@ class MenuController
             return;
         }
         $menu = $data[0];
-        $menu['items'] = $this->model->getItems($id);
+        $menu['items'] = $this->model->getItemsAgrupados($id);
+        echo json_encode(["error" => false, "data" => $menu]);
+    }
+
+    public function activo()
+    {
+        $data = $this->model->getActivo();
+        if (empty($data)) {
+            http_response_code(404);
+            echo json_encode(["error" => true, "mensaje" => "No hay menú activo disponible"]);
+            return;
+        }
+        $menu = $data[0];
+        $menu['items'] = $this->model->getItemsAgrupados($menu['id']);
         echo json_encode(["error" => false, "data" => $menu]);
     }
 
@@ -40,15 +53,10 @@ class MenuController
             }
         }
         $fecha_inicio = $input['fecha_inicio'] ?? null;
-        $fecha_fin = $input['fecha_fin'] ?? null;
-
+        $fecha_fin    = $input['fecha_fin']    ?? null;
         $id = $this->model->create(
-            $input['nombre_menu'],
-            $fecha_inicio,
-            $fecha_fin,
-            $input['hora_apertura'],
-            $input['hora_cierre'],
-            $input['creado_por']
+            $input['nombre_menu'], $fecha_inicio, $fecha_fin,
+            $input['hora_apertura'], $input['hora_cierre'], $input['creado_por']
         );
         http_response_code(201);
         echo json_encode(["error" => false, "mensaje" => "Menú creado", "id" => $id]);
@@ -65,10 +73,12 @@ class MenuController
             }
         }
         $fecha_inicio = $input['fecha_inicio'] ?? null;
-        $fecha_fin = $input['fecha_fin'] ?? null;
-        $activo = $input['activo'] ?? false;
-
-        $this->model->update($id, $input['nombre_menu'], $fecha_inicio, $fecha_fin, $input['hora_apertura'], $input['hora_cierre'], $activo);
+        $fecha_fin    = $input['fecha_fin']    ?? null;
+        $activo       = $input['activo']       ?? false;
+        $this->model->update(
+            $id, $input['nombre_menu'], $fecha_inicio, $fecha_fin,
+            $input['hora_apertura'], $input['hora_cierre'], $activo
+        );
         echo json_encode(["error" => false, "mensaje" => "Menú actualizado"]);
     }
 
@@ -81,19 +91,12 @@ class MenuController
     public function agregarItem($id, $input)
     {
         $id_producto = $input['id_producto'] ?? null;
-        $id_combo = $input['id_combo'] ?? null;
-
+        $id_combo    = $input['id_combo']    ?? null;
         if (empty($id_producto) && empty($id_combo)) {
             http_response_code(400);
             echo json_encode(["error" => true, "mensaje" => "Debe enviar id_producto o id_combo"]);
             return;
         }
-        if (!empty($id_producto) && !empty($id_combo)) {
-            http_response_code(400);
-            echo json_encode(["error" => true, "mensaje" => "Solo puede enviar id_producto O id_combo, no ambos"]);
-            return;
-        }
-
         $idItem = $this->model->agregarItem($id, $id_producto, $id_combo);
         http_response_code(201);
         echo json_encode(["error" => false, "mensaje" => "Item agregado al menú", "id" => $idItem]);
