@@ -46,7 +46,7 @@ export default function Header() {
     { name: 'Menús',         link: '/menus'           },
     { name: 'Menú del día',  link: '/menu-disponible' },
     { name: 'Procesos',      link: '/procesos'        },
-    { name: 'Administración', link: '/admin'          },
+    { name: 'Administración', link: '/admin/productos' },
   ];
 
   const menuIdPrincipal = 'menu-principal';

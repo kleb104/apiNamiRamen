@@ -11,8 +11,8 @@ class IngredienteModel
     public function all()
     {
         try {
-            $vSql = "SELECT * FROM ingredientes;";
-            return $this->enlace->ExecuteSQL($vSql);
+            $vSql = "SELECT * FROM ingredientes ORDER BY nombre_ingrediente ASC;";
+            return $this->enlace->executeSQL($vSql, null, 'asoc');
         } catch (Exception $e) {
             handleException($e);
         }

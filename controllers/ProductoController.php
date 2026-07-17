@@ -64,12 +64,24 @@ class ProductoController
                 return;
             }
         }
+
+        // Validar nombre único
+        $existe = $this->model->getByNombre($input['nombre']);
+        if (!empty($existe)) {
+            http_response_code(409);
+            echo json_encode(["error" => true, "mensaje" => "Ya existe un producto con ese nombre"]);
+            return;
+        }
+
         $descripcion = $input['descripcion'] ?? null;
-        $imagen_url = $input['imagen_url'] ?? null;
+        $imagen_url  = $input['imagen_url']  ?? null;
 
-        $id = $this->model->create($input['nombre'], $descripcion, $input['precio'], $imagen_url, $input['id_categoria']);
+        $id = $this->model->create(
+            $input['nombre'], $descripcion,
+            $input['precio'], $imagen_url, $input['id_categoria']
+        );
 
-        // Si vienen ingredientes en el body, los asocia de una vez
+        // Asociar ingredientes si vienen
         if (!empty($input['ingredientes']) && is_array($input['ingredientes'])) {
             foreach ($input['ingredientes'] as $id_ingrediente) {
                 $this->model->agregarIngrediente($id, $id_ingrediente);
@@ -91,10 +103,22 @@ class ProductoController
             }
         }
         $descripcion = $input['descripcion'] ?? null;
-        $imagen_url = $input['imagen_url'] ?? null;
-        $activo = $input['activo'] ?? true;
+        $imagen_url  = $input['imagen_url']  ?? null;
+        $activo      = $input['activo']      ?? true;
 
-        $this->model->update($id, $input['nombre'], $descripcion, $input['precio'], $imagen_url, $input['id_categoria'], $activo);
+        $this->model->update(
+            $id, $input['nombre'], $descripcion,
+            $input['precio'], $imagen_url, $input['id_categoria'], $activo
+        );
+
+        // Actualizar ingredientes: borrar todos y volver a insertar
+        $this->model->quitarTodosIngredientes($id);
+        if (!empty($input['ingredientes']) && is_array($input['ingredientes'])) {
+            foreach ($input['ingredientes'] as $id_ingrediente) {
+                $this->model->agregarIngrediente($id, $id_ingrediente);
+            }
+        }
+
         echo json_encode(["error" => false, "mensaje" => "Producto actualizado"]);
     }
 

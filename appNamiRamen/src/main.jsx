@@ -9,12 +9,14 @@ import { PageNotFound }      from './components/Home/PageNotFound';
 import { CatalogoProductos } from './components/Producto/CatalogoProductos';
 import { DetalleProducto }   from './components/Producto/DetalleProducto';
 import TablaProductos        from './components/Producto/TablaProductos';
+import { FormProducto }      from './components/Producto/FormProducto';
 import { CatalogoCombos } from './components/Combo/CatalogoCombos';
 import { DetalleCombo }   from './components/Combo/DetalleCombo';
 import { ListadoMenus }    from './components/Menu/ListadoMenus';
 import { MenuDisponible }  from './components/Menu/MenuDisponible';
 import { ListadoProceso } from './components/Proceso/ListadoProceso';
 import { DetalleProceso }  from './components/Proceso/DetalleProceso';
+
 
 const rutas = createBrowserRouter([
   {
@@ -23,7 +25,9 @@ const rutas = createBrowserRouter([
       { index: true,               element: <Home />              },
       { path: '/productos',        element: <CatalogoProductos /> },
       { path: '/productos/:id',    element: <DetalleProducto />   },
-      { path: '/admin/productos',  element: <TablaProductos />    },
+      { path: '/admin/productos',           element: <TablaProductos /> },
+      { path: '/admin/productos/crear',     element: <FormProducto modo="crear" /> },
+      { path: '/admin/productos/editar/:id', element: <FormProducto modo="editar" /> },
       { path: '*',                 element: <PageNotFound />      },
       { path: '/combos',           element: <CatalogoCombos />    },
       { path: '/combos/:id',       element: <DetalleCombo />      },
