@@ -37,28 +37,57 @@ class ProcesoPreparacionController
 
     public function store($input)
     {
-        $requeridos = ['id_producto', 'id_estacion', 'orden_paso'];
-        foreach ($requeridos as $campo) {
-            if (!isset($input[$campo]) || $input[$campo] === '') {
-                http_response_code(400);
-                echo json_encode(["error" => true, "mensaje" => "El campo $campo es requerido"]);
-                return;
-            }
-        }
-        $this->model->create($input['id_producto'], $input['id_estacion'], $input['orden_paso']);
-        http_response_code(201);
-        echo json_encode(["error" => false, "mensaje" => "Paso de preparación creado"]);
-    }
-
-    public function update($id_producto, $id_estacion, $input)
-    {
-        if (!isset($input['orden_paso'])) {
+        if (empty($input['id_producto'])) {
             http_response_code(400);
-            echo json_encode(["error" => true, "mensaje" => "orden_paso es requerido"]);
+            echo json_encode(["error" => true, "mensaje" => "El producto es requerido"]);
             return;
         }
-        $this->model->update($id_producto, $id_estacion, $input['orden_paso']);
-        echo json_encode(["error" => false, "mensaje" => "Paso actualizado"]);
+        if (empty($input['estaciones']) || !is_array($input['estaciones'])) {
+            http_response_code(400);
+            echo json_encode(["error" => true, "mensaje" => "Debe agregar al menos una estación"]);
+            return;
+        }
+
+        // Verificar que no exista ya un proceso para ese producto
+        $existe = $this->model->getByProducto($input['id_producto']);
+        if (!empty($existe)) {
+            http_response_code(409);
+            echo json_encode(["error" => true, "mensaje" => "Ya existe un proceso para ese producto"]);
+            return;
+        }
+
+        foreach ($input['estaciones'] as $estacion) {
+            $this->model->create(
+                $input['id_producto'],
+                $estacion['id_estacion'],
+                $estacion['orden_paso']
+            );
+        }
+
+        http_response_code(201);
+        echo json_encode(["error" => false, "mensaje" => "Proceso creado"]);
+    }
+
+    public function update($id, $input)
+    {
+        if (empty($input['estaciones']) || !is_array($input['estaciones'])) {
+            http_response_code(400);
+            echo json_encode(["error" => true, "mensaje" => "Debe agregar al menos una estación"]);
+            return;
+        }
+
+        // Borrar todas las estaciones actuales y reinsertar
+        $this->model->deleteByProducto($id);
+
+        foreach ($input['estaciones'] as $estacion) {
+            $this->model->create(
+                $id,
+                $estacion['id_estacion'],
+                $estacion['orden_paso']
+            );
+        }
+
+        echo json_encode(["error" => false, "mensaje" => "Proceso actualizado"]);
     }
 
     public function destroy($id_producto, $id_estacion)

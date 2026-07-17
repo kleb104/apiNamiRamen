@@ -12,7 +12,14 @@ class ComboService {
     return axios.post(BASE_URL, JSON.stringify(combo));
   }
   updateCombo(combo) {
-    return axios({ method: 'put', url: BASE_URL + '/' + combo.id, data: JSON.stringify(combo) });
+    return axios({
+      method: 'put',
+      url: BASE_URL + '/' + combo.id,
+      data: JSON.stringify(combo),
+    });
+  }
+  getTodosLosCombos() {
+    return axios.get(BASE_URL + '/todos');
   }
 }
 export default new ComboService();

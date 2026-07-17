@@ -72,4 +72,15 @@ class ProcesoPreparacionModel
             handleException($e);
         }
     }
+
+    public function deleteByProducto($id_producto)
+    {
+        try {
+            $vSql = "DELETE FROM procesos_preparacion WHERE id_producto = $id_producto";
+            return $this->enlace->executeSQL_DML($vSql);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
 }

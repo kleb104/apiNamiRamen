@@ -12,6 +12,11 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import { Link } from 'react-router-dom';
 import ProcesoService from '../../services/ProcesoService';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+
 
 export function ListadoProceso() {
   const [data, setData]     = useState([]);
@@ -34,19 +39,35 @@ export function ListadoProceso() {
   };
 
   return (
+    
     <Box sx={{ py: 4, px: 3 }}>
-      <Typography component="h2"
-        sx={{ fontFamily: '"Noto Serif JP", serif', fontSize: 22,
-              fontWeight: 700, color: '#1B2A4A', mb: 3 }}>
-        Procesos de Preparación
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography component="h2"
+          sx={{ fontFamily: '"Noto Serif JP", serif', fontSize: 22,
+                fontWeight: 700, color: '#1B2A4A' }}>
+          Procesos de Preparación
+        </Typography>
+        <Button
+          component={Link}
+          to="/procesos/crear"
+          variant="contained"
+          startIcon={<AddIcon />}
+          sx={{
+            bgcolor: '#1B2A4A', color: '#fff',
+            textTransform: 'none', borderRadius: 1,
+            '&:hover': { bgcolor: '#152236' },
+          }}
+        >
+          Nuevo proceso
+        </Button>
+      </Box>
 
       <TableContainer component={Paper}
         sx={{ boxShadow: 'none', border: '1px solid #e0e0e0', borderRadius: 2 }}>
         <Table>
           <TableHead>
             <TableRow sx={{ bgcolor: '#1B2A4A' }}>
-              {['Producto', 'Cantidad de pasos', 'Detalle'].map((h) => (
+              {['Producto', 'Cantidad de pasos', 'Detalle', 'Editar'].map((h) => (
                 <TableCell key={h} sx={{ color: '#fff', fontWeight: 600, fontSize: 13 }}>{h}</TableCell>
               ))}
             </TableRow>
@@ -74,6 +95,18 @@ export function ListadoProceso() {
                             textTransform: 'none', borderRadius: 1 }}>
                       Ver proceso
                     </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title="Editar proceso">
+                      <IconButton
+                        component={Link}
+                        to={`/procesos/editar/${proc.id}`}
+                        size="small"
+                        sx={{ color: '#C0392B' }}
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               );

@@ -72,15 +72,26 @@ export default function TablaProductos() {
                   ₡{Number(prod.precio).toLocaleString('es-CR')}
                 </TableCell>
                 <TableCell>
-                  <Chip
-                    label={prod.activo == 1 ? 'Activo' : 'Inactivo'}
-                    size="small"
-                    sx={{
-                      bgcolor: prod.activo == 1 ? '#e8f5e9' : '#fce4ec',
-                      color:   prod.activo == 1 ? '#2e7d32' : '#c62828',
-                      fontWeight: 600, fontSize: 11,
-                    }}
-                  />
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                    <Chip
+                      label={prod.activo == 1 ? 'Habilitado' : 'Deshabilitado'}
+                      size="small"
+                      sx={{
+                        bgcolor: prod.activo == 1 ? '#e8f5e9' : '#fce4ec',
+                        color:   prod.activo == 1 ? '#2e7d32' : '#c62828',
+                        fontWeight: 600, fontSize: 11,
+                      }}
+                    />
+                    <Chip
+                      label={prod.en_menu_ahora ? 'En menú ahora' : 'Fuera de horario'}
+                      size="small"
+                      sx={{
+                        bgcolor: prod.en_menu_ahora ? '#e3f2fd' : '#f5f5f5',
+                        color:   prod.en_menu_ahora ? '#1565c0' : '#9e9e9e',
+                        fontWeight: 600, fontSize: 10,
+                      }}
+                    />
+                  </Box>
                 </TableCell>
                 <TableCell>
                   <Tooltip title="Ver detalle">

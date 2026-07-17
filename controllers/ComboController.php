@@ -41,6 +41,16 @@ class ComboController
         echo json_encode(["error" => false, "data" => $data]);
     }
 
+    public function todos()
+    {
+        $data = $this->model->all();
+        $idsEnMenu = $this->model->getIdsEnMenuActivo();
+        foreach ($data as &$combo) {
+            $combo['imagen_principal'] = $this->model->getImagenPrincipal($combo['id']);
+            $combo['en_menu_ahora']    = in_array($combo['id'], $idsEnMenu);
+        }
+        echo json_encode(["error" => false, "data" => $data]);
+    }
 
     public function show($id)
     {
@@ -65,13 +75,26 @@ class ComboController
                 return;
             }
         }
-        $id = $this->model->create($input['nombre_combo'], $input['precio_especial'], $input['id_categoria']);
 
-        // Si vienen productos en el body, se asocian de una vez
+        $existe = $this->model->getByNombre($input['nombre_combo']);
+        if (!empty($existe)) {
+            http_response_code(409);
+            echo json_encode(["error" => true, "mensaje" => "Ya existe un combo con ese nombre"]);
+            return;
+        }
+
+        $id = $this->model->create(
+            $input['nombre_combo'],
+            $input['precio_especial'],
+            $input['id_categoria']
+        );
+
+        // productos viene como [{id_producto, es_principal}]
         if (!empty($input['productos']) && is_array($input['productos'])) {
             foreach ($input['productos'] as $item) {
-                $cantidad = $item['cantidad'] ?? 1;
-                $this->model->agregarProducto($id, $item['id_producto'], $cantidad);
+                $id_prod     = $item['id_producto']  ?? $item;
+                $es_principal = $item['es_principal'] ?? 0;
+                $this->model->agregarProductoConPrincipal($id, $id_prod, 1, $es_principal);
             }
         }
 
@@ -90,7 +113,23 @@ class ComboController
             }
         }
         $activo = $input['activo'] ?? true;
-        $this->model->update($id, $input['nombre_combo'], $input['precio_especial'], $input['id_categoria'], $activo);
+        $this->model->update(
+            $id,
+            $input['nombre_combo'],
+            $input['precio_especial'],
+            $input['id_categoria'],
+            $activo
+        );
+
+        $this->model->quitarTodosProductos($id);
+        if (!empty($input['productos']) && is_array($input['productos'])) {
+            foreach ($input['productos'] as $item) {
+                $id_prod      = $item['id_producto']  ?? $item;
+                $es_principal = $item['es_principal'] ?? 0;
+                $this->model->agregarProductoConPrincipal($id, $id_prod, 1, $es_principal);
+            }
+        }
+
         echo json_encode(["error" => false, "mensaje" => "Combo actualizado"]);
     }
 

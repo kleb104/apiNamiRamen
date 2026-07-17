@@ -164,4 +164,20 @@ class ProductoModel
         }
     }
 
+    public function getIdsEnMenuActivo()
+    {
+        try {
+            $vSql = "SELECT DISTINCT mi.id_producto
+                    FROM menu_items mi
+                    JOIN menus m ON mi.id_menu = m.id
+                    WHERE m.hora_apertura <= TIME(NOW())
+                    AND m.hora_cierre   >= TIME(NOW())
+                    AND mi.id_producto IS NOT NULL";
+            $result = $this->enlace->executeSQL($vSql, null, 'asoc');
+            return array_column($result, 'id_producto');
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
 }

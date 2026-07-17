@@ -84,6 +84,28 @@ class ComboModel
             handleException($e);
         }
     }
+    /* Buscar por nombre para validar unicidad */
+    public function getByNombre($nombre)
+    {
+        try {
+            $vSql = "SELECT id FROM combos WHERE nombre_combo = '$nombre'";
+            return $this->enlace->executeSQL($vSql, null, 'asoc');
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
+    /* Quitar TODOS los productos de un combo (para el update) */
+    public function quitarTodosProductos($id_combo)
+    {
+        try {
+            $vSql = "DELETE FROM combo_productos WHERE id_combo = $id_combo";
+            return $this->enlace->executeSQL_DML($vSql);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
 
     public function create($nombre_combo, $precio_especial, $id_categoria)
     {
@@ -140,4 +162,32 @@ class ComboModel
             handleException($e);
         }
     }
+
+    public function agregarProductoConPrincipal($id_combo, $id_producto, $cantidad, $es_principal)
+    {
+        try {
+            $vSql = "INSERT INTO combo_productos (id_combo, id_producto, cantidad, es_principal)
+                    VALUES ($id_combo, $id_producto, $cantidad, $es_principal)";
+            return $this->enlace->executeSQL_DML($vSql);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
+    public function getIdsEnMenuActivo()
+    {
+        try {
+            $vSql = "SELECT DISTINCT mi.id_combo
+                    FROM menu_items mi
+                    JOIN menus m ON mi.id_menu = m.id
+                    WHERE m.hora_apertura <= TIME(NOW())
+                    AND m.hora_cierre   >= TIME(NOW())
+                    AND mi.id_combo IS NOT NULL";
+            $result = $this->enlace->executeSQL($vSql, null, 'asoc');
+            return array_column($result, 'id_combo');
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
 }

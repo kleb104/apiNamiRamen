@@ -13,6 +13,11 @@ class ProductoController
     public function index()
     {
         $data = $this->model->all();
+        // Marcar cuáles están en el menú activo ahora
+        $idsEnMenu = $this->model->getIdsEnMenuActivo();
+        foreach ($data as &$prod) {
+            $prod['en_menu_ahora'] = in_array($prod['id'], $idsEnMenu);
+        }
         echo json_encode(["error" => false, "data" => $data]);
     }
 

@@ -11,7 +11,7 @@ class EstacionModel
     public function all()
     {
         try {
-            $vSql = "SELECT * FROM estaciones;";
+            $vSql = "SELECT * FROM estaciones ORDER BY nombre_estacion ASC;";
             return $this->enlace->ExecuteSQL($vSql);
         } catch (Exception $e) {
             handleException($e);
