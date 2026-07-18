@@ -26,6 +26,7 @@ import ProductoService from '../../services/ProductoService';
 import CategoriaService from '../../services/CategoriaService';
 import IngredienteService from '../../services/IngredienteService';
 
+
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -284,47 +285,50 @@ export function FormProducto({ modo }) {
           )}
 
           {/* Ingredientes */}
-            <Grid size={12}>
-              <FormControl fullWidth error={Boolean(errors.ingredientes)}>
-                <InputLabel id="label-ingredientes" shrink>
-                  Ingredientes
-                </InputLabel>
+              <Box sx={{ width: '100%' }}>
                 <Controller
                   name="ingredientes"
                   control={control}
                   render={({ field }) => (
-                    <Select
-                      {...field}
-                      labelId="label-ingredientes"
-                      label="Ingredientes"
+                    <Autocomplete
                       multiple
-                      value={field.value ?? []}
-                      displayEmpty
-                      notched
-                      renderValue={(selected) => {
-                        if (selected.length === 0) {
-                          return <em style={{ color: '#aaa' }}>Seleccionar ingredientes...</em>;
-                        }
-                        return ingredientes
-                          .filter((i) => selected.includes(Number(i.id)))
-                          .map((i) => i.nombre_ingrediente)
-                          .join(', ');
+                      options={ingredientes}
+                      disableCloseOnSelect
+                      getOptionLabel={(option) => option.nombre_ingrediente ?? ''}
+                      isOptionEqualToValue={(option, value) =>
+                        Number(option.id) === Number(value.id)
+                      }
+                      value={ingredientes.filter((i) =>
+                        (field.value ?? []).includes(Number(i.id))
+                      )}
+                      onChange={(_, newValue) => {
+                        field.onChange(newValue.map((i) => Number(i.id)));
                       }}
-                    >
-                      {ingredientes.map((ing) => (
-                        <MenuItem key={ing.id} value={Number(ing.id)}>
-                          <Checkbox checked={(field.value ?? []).includes(Number(ing.id))} />
-                          <ListItemText primary={ing.nombre_ingrediente} />
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      renderOption={(props, option, { selected }) => (
+                        <li {...props} key={option.id}>
+                          <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            style={{ marginRight: 8 }}
+                            checked={selected}
+                          />
+                          {option.nombre_ingrediente}
+                        </li>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Ingredientes"
+                          placeholder="Seleccionar ingredientes..."
+                          error={Boolean(errors.ingredientes)}
+                          helperText={errors.ingredientes ? errors.ingredientes.message : ' '}
+                          variant="outlined"
+                        />
+                      )}
+                    />
                   )}
                 />
-                <FormHelperText>
-                  {errors.ingredientes ? errors.ingredientes.message : ' '}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
+              </Box>
 
           {/* Divider */}
           <Grid xs={12}>

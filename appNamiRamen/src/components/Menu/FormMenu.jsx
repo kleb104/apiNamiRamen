@@ -201,20 +201,13 @@ export function FormMenu({ modo }) {
 
           {/* Nombre */}
           <Grid xs={12}>
-            <Controller
-              name="nombre_menu"
-              control={control}
+            <Controller name="nombre_menu" control={control}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Nombre del menú"
+                <TextField {...field} fullWidth label="Nombre del menú"
                   error={Boolean(errors.nombre_menu)}
                   helperText={errors.nombre_menu ? errors.nombre_menu.message : ' '}
-                  variant="outlined"
-                />
-              )}
-            />
+                  variant="outlined" />
+              )} />
           </Grid>
 
           {/* Rango de fechas */}
@@ -226,42 +219,26 @@ export function FormMenu({ modo }) {
             </Typography>
           </Grid>
 
-          <Grid xs={12} sm={6}>
-            <Controller
-            name="fecha_inicio"
-            control={control}
-            render={({ field }) => (
-                <TextField
-                {...field}
-                fullWidth
-                label="Fecha de inicio"
-                type="date"
-                slotProps={{ inputLabel: { shrink: true } }}
-                error={Boolean(errors.fecha_inicio)}
-                helperText={errors.fecha_inicio ? errors.fecha_inicio.message : ' '}
-                variant="outlined"
-                />
-            )}
-            />
+          <Grid xs={6}>
+            <Controller name="fecha_inicio" control={control}
+              render={({ field }) => (
+                <TextField {...field} fullWidth label="Fecha de inicio" type="date"
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  error={Boolean(errors.fecha_inicio)}
+                  helperText={errors.fecha_inicio ? errors.fecha_inicio.message : ' '}
+                  variant="outlined" />
+              )} />
           </Grid>
 
-          <Grid xs={12} sm={6}>
-            <Controller
-            name="fecha_fin"
-            control={control}
-            render={({ field }) => (
-                <TextField
-                {...field}
-                fullWidth
-                label="Fecha de fin"
-                type="date"
-                slotProps={{ inputLabel: { shrink: true } }}
-                error={Boolean(errors.fecha_fin)}
-                helperText={errors.fecha_fin ? errors.fecha_fin.message : ' '}
-                variant="outlined"
-                />
-            )}
-            />
+          <Grid xs={6}>
+            <Controller name="fecha_fin" control={control}
+              render={({ field }) => (
+                <TextField {...field} fullWidth label="Fecha de fin" type="date"
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  error={Boolean(errors.fecha_fin)}
+                  helperText={errors.fecha_fin ? errors.fecha_fin.message : ' '}
+                  variant="outlined" />
+              )} />
           </Grid>
 
           {/* Rango de horas */}
@@ -273,174 +250,121 @@ export function FormMenu({ modo }) {
             </Typography>
           </Grid>
 
-          <Grid xs={12} sm={6}>
-            <Controller
-            name="hora_apertura"
-            control={control}
-            render={({ field }) => (
-                <TextField
-                {...field}
-                fullWidth
-                label="Hora de apertura"
-                type="time"
-                slotProps={{ inputLabel: { shrink: true } }}
-                error={Boolean(errors.hora_apertura)}
-                helperText={errors.hora_apertura ? errors.hora_apertura.message : ' '}
-                variant="outlined"
-                />
-            )}
-            />
-          </Grid>
-
-          <Grid xs={12} sm={6}>
-            <Controller
-            name="hora_cierre"
-            control={control}
-            render={({ field }) => (
-                <TextField
-                {...field}
-                fullWidth
-                label="Hora de cierre"
-                type="time"
-                slotProps={{ inputLabel: { shrink: true } }}
-                error={Boolean(errors.hora_cierre)}
-                helperText={errors.hora_cierre ? errors.hora_cierre.message : ' '}
-                variant="outlined"
-                />
-            )}
-            />
-          </Grid>
-
-          {/* Productos */}
-          <Grid xs={12}>
-            <Controller
-              name="productos"
-              control={control}
+          <Grid xs={6}>
+            <Controller name="hora_apertura" control={control}
               render={({ field }) => (
-                <Autocomplete
-                  multiple
-                  options={productos}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) => option.nombre ?? ''}
-                  isOptionEqualToValue={(option, value) =>
-                    Number(option.id) === Number(value.id)
-                  }
-                  value={
-                    productos.filter((p) =>
-                      (field.value ?? []).includes(Number(p.id))
-                    )
-                  }
-                  onChange={(_, newValue) => {
-                    field.onChange(newValue.map((p) => Number(p.id)));
-                  }}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props} key={option.id}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                      />
-                      {option.nombre}
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Productos del menú"
-                      placeholder="Seleccionar productos..."
-                      variant="outlined"
-                      helperText=" "
-                    />
-                  )}
-                />
-              )}
-            />
+                <TextField {...field} fullWidth label="Hora de apertura" type="time"
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  error={Boolean(errors.hora_apertura)}
+                  helperText={errors.hora_apertura ? errors.hora_apertura.message : ' '}
+                  variant="outlined" />
+              )} />
           </Grid>
 
-          {/* Combos */}
-          <Grid xs={12}>
-            <Controller
-              name="combos"
-              control={control}
+          <Grid xs={6}>
+            <Controller name="hora_cierre" control={control}
               render={({ field }) => (
-                <Autocomplete
-                  multiple
-                  options={combos}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) => option.nombre_combo ?? ''}
-                  isOptionEqualToValue={(option, value) =>
-                    Number(option.id) === Number(value.id)
-                  }
-                  value={
-                    combos.filter((c) =>
-                      (field.value ?? []).includes(Number(c.id))
-                    )
-                  }
-                  onChange={(_, newValue) => {
-                    field.onChange(newValue.map((c) => Number(c.id)));
-                  }}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props} key={option.id}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                      />
-                      {option.nombre_combo}
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Combos del menú"
-                      placeholder="Seleccionar combos..."
-                      variant="outlined"
-                      helperText=" "
-                    />
-                  )}
-                />
-              )}
-            />
-          </Grid>
-
-          {/* Divider */}
-          <Grid xs={12}>
-            <Divider sx={{ my: 1 }} />
-          </Grid>
-
-          {/* Botones */}
-          <Grid xs={12}>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  bgcolor: '#C0392B', color: '#fff',
-                  textTransform: 'none', borderRadius: 1,
-                  px: 4, py: 1.25,
-                  '&:hover': { bgcolor: '#a93226' },
-                }}
-              >
-                {modo === 'crear' ? 'Crear menú' : 'Guardar cambios'}
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<ArrowBackIcon />}
-                onClick={() => navigate('/menus')}
-                sx={{
-                  color: '#1B2A4A', borderColor: 'rgba(27,42,74,0.3)',
-                  textTransform: 'none', borderRadius: 1,
-                  '&:hover': { borderColor: '#1B2A4A' },
-                }}
-              >
-                Cancelar
-              </Button>
-            </Box>
+                <TextField {...field} fullWidth label="Hora de cierre" type="time"
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  error={Boolean(errors.hora_cierre)}
+                  helperText={errors.hora_cierre ? errors.hora_cierre.message : ' '}
+                  variant="outlined" />
+              )} />
           </Grid>
 
         </Grid>
+
+        {/* Productos — fuera del Grid */}
+        <Box sx={{ mt: 2, width: '100%' }}>
+          <Controller name="productos" control={control}
+            render={({ field }) => (
+              <Autocomplete
+                multiple
+                options={productos}
+                disableCloseOnSelect
+                getOptionLabel={(option) => option.nombre ?? ''}
+                isOptionEqualToValue={(option, value) =>
+                  Number(option.id) === Number(value.id)
+                }
+                value={productos.filter((p) =>
+                  (field.value ?? []).includes(Number(p.id))
+                )}
+                onChange={(_, newValue) => {
+                  field.onChange(newValue.map((p) => Number(p.id)));
+                }}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props} key={option.id}>
+                    <Checkbox icon={icon} checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }} checked={selected} />
+                    {option.nombre}
+                  </li>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params}
+                    label="Productos del menú"
+                    placeholder="Seleccionar productos..."
+                    variant="outlined"
+                    helperText=" " />
+                )}
+              />
+            )} />
+        </Box>
+
+        {/* Combos — fuera del Grid */}
+        <Box sx={{ mt: 2, width: '100%' }}>
+          <Controller name="combos" control={control}
+            render={({ field }) => (
+              <Autocomplete
+                multiple
+                options={combos}
+                disableCloseOnSelect
+                getOptionLabel={(option) => option.nombre_combo ?? ''}
+                isOptionEqualToValue={(option, value) =>
+                  Number(option.id) === Number(value.id)
+                }
+                value={combos.filter((c) =>
+                  (field.value ?? []).includes(Number(c.id))
+                )}
+                onChange={(_, newValue) => {
+                  field.onChange(newValue.map((c) => Number(c.id)));
+                }}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props} key={option.id}>
+                    <Checkbox icon={icon} checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }} checked={selected} />
+                    {option.nombre_combo}
+                  </li>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params}
+                    label="Combos del menú"
+                    placeholder="Seleccionar combos..."
+                    variant="outlined"
+                    helperText=" " />
+                )}
+              />
+            )} />
+        </Box>
+
+        <Divider sx={{ my: 2 }} />
+
+        {/* Botones */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button type="submit" variant="contained"
+            sx={{ bgcolor: '#C0392B', color: '#fff', textTransform: 'none',
+                  borderRadius: 1, px: 4, py: 1.25,
+                  '&:hover': { bgcolor: '#a93226' } }}>
+            {modo === 'crear' ? 'Crear menú' : 'Guardar cambios'}
+          </Button>
+          <Button variant="outlined" startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/menus')}
+            sx={{ color: '#1B2A4A', borderColor: 'rgba(27,42,74,0.3)',
+                  textTransform: 'none', borderRadius: 1,
+                  '&:hover': { borderColor: '#1B2A4A' } }}>
+            Cancelar
+          </Button>
+        </Box>
+
       </form>
     </Box>
   );
