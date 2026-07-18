@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `nami_restaurant_db_api` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `nami_restaurant_db_api`;
 -- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: nami_restaurant_db_api
@@ -65,7 +67,7 @@ CREATE TABLE `combo_productos` (
 
 LOCK TABLES `combo_productos` WRITE;
 /*!40000 ALTER TABLE `combo_productos` DISABLE KEYS */;
-INSERT INTO `combo_productos` VALUES (1,1,1,1),(1,13,1,0),(2,5,1,0),(2,14,1,1),(3,1,1,0),(3,5,1,1),(4,5,1,0),(4,13,1,1),(4,14,1,0);
+INSERT INTO `combo_productos` VALUES (1,1,1,1),(1,13,1,0),(2,5,1,0),(2,14,1,1),(3,1,1,0),(3,5,1,1),(4,5,1,0),(4,13,1,1),(4,14,1,0),(5,18,1,0),(5,20,1,1),(5,21,1,0);
 /*!40000 ALTER TABLE `combo_productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +88,7 @@ CREATE TABLE `combos` (
   UNIQUE KEY `nombre_combo` (`nombre_combo`),
   KEY `id_categoria` (`id_categoria`),
   CONSTRAINT `combos_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +97,7 @@ CREATE TABLE `combos` (
 
 LOCK TABLES `combos` WRITE;
 /*!40000 ALTER TABLE `combos` DISABLE KEYS */;
-INSERT INTO `combos` VALUES (1,'Combo Clásico Nami',10500.00,7,1),(2,'Combo Mar y Tierra',11500.00,7,1),(3,'Combo Sushi + Ramen',10200.00,7,1),(4,'Combo Premium Wagyu',12000.00,7,1);
+INSERT INTO `combos` VALUES (1,'Combo Clásico Nami',10500.00,7,1),(2,'Combo Mar y Tierra',11500.00,7,1),(3,'Combo Sushi + Ramen',10200.00,7,1),(4,'Combo Premium Wagyu',12000.00,7,1),(5,'Combo Dulce Matinal',5800.00,7,1);
 /*!40000 ALTER TABLE `combos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +138,7 @@ CREATE TABLE `estaciones` (
   `nombre_estacion` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_estacion` (`nombre_estacion`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +147,7 @@ CREATE TABLE `estaciones` (
 
 LOCK TABLES `estaciones` WRITE;
 /*!40000 ALTER TABLE `estaciones` DISABLE KEYS */;
-INSERT INTO `estaciones` VALUES (1,'Barra Sushi'),(2,'Cocina Caliente'),(3,'Estación de Emplatado');
+INSERT INTO `estaciones` VALUES (1,'Barra Sushi'),(2,'Cocina Caliente'),(4,'Control de Calidad'),(5,'Estación de Bebidas'),(3,'Estación de Emplatado');
 /*!40000 ALTER TABLE `estaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,7 +196,7 @@ CREATE TABLE `menu_items` (
   CONSTRAINT `menu_items_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`),
   CONSTRAINT `menu_items_ibfk_3` FOREIGN KEY (`id_combo`) REFERENCES `combos` (`id`),
   CONSTRAINT `chk_item_type` CHECK (`id_producto` is not null or `id_combo` is not null)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,6 +205,7 @@ CREATE TABLE `menu_items` (
 
 LOCK TABLES `menu_items` WRITE;
 /*!40000 ALTER TABLE `menu_items` DISABLE KEYS */;
+INSERT INTO `menu_items` VALUES (1,1,18,NULL),(2,1,20,NULL),(3,1,19,NULL),(4,1,21,NULL),(8,1,NULL,5),(9,2,15,NULL),(10,2,11,NULL),(11,2,8,NULL),(12,2,12,NULL),(13,2,18,NULL),(14,2,14,NULL),(15,2,13,NULL),(16,2,16,NULL),(17,2,9,NULL),(24,2,NULL,1),(25,3,6,NULL),(26,3,18,NULL),(27,3,5,NULL),(28,3,1,NULL),(29,3,19,NULL),(30,3,4,NULL),(31,3,3,NULL),(32,3,7,NULL),(33,3,2,NULL),(40,3,NULL,2),(41,3,NULL,4),(42,3,NULL,3),(43,4,8,NULL),(44,4,10,NULL),(45,4,16,NULL),(46,4,17,NULL);
 /*!40000 ALTER TABLE `menu_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,7 +228,7 @@ CREATE TABLE `menus` (
   PRIMARY KEY (`id`),
   KEY `creado_por` (`creado_por`),
   CONSTRAINT `menus_ibfk_1` FOREIGN KEY (`creado_por`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,6 +237,7 @@ CREATE TABLE `menus` (
 
 LOCK TABLES `menus` WRITE;
 /*!40000 ALTER TABLE `menus` DISABLE KEYS */;
+INSERT INTO `menus` VALUES (1,'Menú Matinal','2026-07-01','2026-12-31','07:00:00','11:30:00',0,1),(2,'Menú de Tarde','2026-07-01','2026-12-31','12:00:00','17:00:00',1,1),(3,'Menú Nocturno','2026-07-01','2026-12-31','18:00:00','22:00:00',0,1),(4,'Menú Ejecutivo','2026-01-01','2026-12-31','11:00:00','15:00:00',0,1);
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -360,7 +364,7 @@ CREATE TABLE `procesos_preparacion` (
 
 LOCK TABLES `procesos_preparacion` WRITE;
 /*!40000 ALTER TABLE `procesos_preparacion` DISABLE KEYS */;
-INSERT INTO `procesos_preparacion` VALUES (1,2,1),(1,3,2),(2,2,1),(2,3,2),(3,2,1),(3,3,2),(4,2,1),(4,3,2),(5,1,1),(5,3,2),(6,1,1),(6,3,2),(7,1,1),(7,3,2),(8,2,1),(8,3,2),(9,2,1),(9,3,2),(10,2,1),(10,3,2),(11,2,1),(11,3,2),(12,2,1),(12,3,2),(13,2,1),(13,3,2),(14,2,1),(14,3,2),(15,2,1),(15,3,2),(16,2,1),(16,3,2),(17,2,1),(17,3,2),(18,3,1),(19,3,1),(20,1,1),(20,3,2),(21,2,1),(21,3,2);
+INSERT INTO `procesos_preparacion` VALUES (1,2,1),(1,3,3),(1,4,2),(2,2,1),(2,3,3),(2,4,2),(3,2,1),(3,3,2),(4,2,1),(4,3,2),(5,1,1),(5,3,2),(6,1,1),(6,3,2),(7,1,1),(7,3,2),(8,2,1),(8,3,2),(9,2,1),(9,3,2),(10,2,1),(10,3,2),(11,2,1),(11,3,2),(12,2,1),(12,3,2),(13,2,1),(13,3,2),(14,2,1),(14,3,2),(15,2,1),(15,3,2),(16,2,1),(16,3,2),(17,2,1),(17,3,2),(18,3,1),(19,3,1),(20,1,1),(20,3,2),(21,2,1),(21,3,2);
 /*!40000 ALTER TABLE `procesos_preparacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -523,4 +527,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-07-13 16:35:29
+-- Dump completed on 2026-07-17 18:48:00
