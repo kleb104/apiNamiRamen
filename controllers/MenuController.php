@@ -54,10 +54,25 @@ class MenuController
         }
         $fecha_inicio = $input['fecha_inicio'] ?? null;
         $fecha_fin    = $input['fecha_fin']    ?? null;
+
         $id = $this->model->create(
-            $input['nombre_menu'], $fecha_inicio, $fecha_fin,
-            $input['hora_apertura'], $input['hora_cierre'], $input['creado_por']
+            $input['nombre_menu'],
+            $fecha_inicio,
+            $fecha_fin,
+            $input['hora_apertura'],
+            $input['hora_cierre'],
+            $input['creado_por']
         );
+
+        // Agregar items (productos y combos)
+        if (!empty($input['items']) && is_array($input['items'])) {
+            foreach ($input['items'] as $item) {
+                $id_producto = $item['id_producto'] ?? null;
+                $id_combo    = $item['id_combo']    ?? null;
+                $this->model->agregarItem($id, $id_producto, $id_combo);
+            }
+        }
+
         http_response_code(201);
         echo json_encode(["error" => false, "mensaje" => "Menú creado", "id" => $id]);
     }
@@ -75,31 +90,28 @@ class MenuController
         $fecha_inicio = $input['fecha_inicio'] ?? null;
         $fecha_fin    = $input['fecha_fin']    ?? null;
         $activo       = $input['activo']       ?? false;
+
         $this->model->update(
-            $id, $input['nombre_menu'], $fecha_inicio, $fecha_fin,
-            $input['hora_apertura'], $input['hora_cierre'], $activo
+            $id,
+            $input['nombre_menu'],
+            $fecha_inicio,
+            $fecha_fin,
+            $input['hora_apertura'],
+            $input['hora_cierre'],
+            $activo
         );
-        echo json_encode(["error" => false, "mensaje" => "Menú actualizado"]);
-    }
 
-    public function destroy($id)
-    {
-        $this->model->delete($id);
-        echo json_encode(["error" => false, "mensaje" => "Menú eliminado"]);
-    }
-
-    public function agregarItem($id, $input)
-    {
-        $id_producto = $input['id_producto'] ?? null;
-        $id_combo    = $input['id_combo']    ?? null;
-        if (empty($id_producto) && empty($id_combo)) {
-            http_response_code(400);
-            echo json_encode(["error" => true, "mensaje" => "Debe enviar id_producto o id_combo"]);
-            return;
+        // Actualizar items: borrar todos y reinsertar
+        $this->model->quitarTodosItems($id);
+        if (!empty($input['items']) && is_array($input['items'])) {
+            foreach ($input['items'] as $item) {
+                $id_producto = $item['id_producto'] ?? null;
+                $id_combo    = $item['id_combo']    ?? null;
+                $this->model->agregarItem($id, $id_producto, $id_combo);
+            }
         }
-        $idItem = $this->model->agregarItem($id, $id_producto, $id_combo);
-        http_response_code(201);
-        echo json_encode(["error" => false, "mensaje" => "Item agregado al menú", "id" => $idItem]);
+
+        echo json_encode(["error" => false, "mensaje" => "Menú actualizado"]);
     }
 
     public function quitarItem($id_item)

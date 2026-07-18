@@ -19,7 +19,7 @@ import { MenuDisponible }  from './components/Menu/MenuDisponible';
 import { ListadoProceso } from './components/Proceso/ListadoProceso';
 import { DetalleProceso }  from './components/Proceso/DetalleProceso';
 import { FormProceso } from './components/Proceso/FormProceso';
-
+import { FormMenu } from './components/Menu/FormMenu';
 
 const rutas = createBrowserRouter([
   {
@@ -29,8 +29,6 @@ const rutas = createBrowserRouter([
       { path: '/productos',        element: <CatalogoProductos />                     },
       { path: '/productos/:id',    element: <DetalleProducto />                       },
       { path: '/admin/productos',           element: <TablaProductos />               },
-      { path: '/admin/productos/crear',     element: <FormProducto modo="crear" />    },
-      { path: '/admin/productos/editar/:id', element: <FormProducto modo="editar" />  },
       { path: '*',                 element: <PageNotFound />                          },
       { path: '/combos',           element: <CatalogoCombos />                        },
       { path: '/combos/:id',       element: <DetalleCombo />                          },
@@ -39,10 +37,14 @@ const rutas = createBrowserRouter([
       { path: '/procesos',        element: <ListadoProceso />                         },
       { path: '/procesos/:id',    element: <DetalleProceso />                         },
       { path: '/admin/combos',            element: <TablaAdminCombos />               },
+      { path: '/admin/productos/crear',     element: <FormProducto modo="crear" />    },
+      { path: '/admin/productos/editar/:id', element: <FormProducto modo="editar" />  },
       { path: '/admin/combos/crear',      element: <FormCombo modo="crear" />         },
       { path: '/admin/combos/editar/:id', element: <FormCombo modo="editar" />        },
       { path: '/procesos/crear',      element: <FormProceso modo="crear" />           },
       { path: '/procesos/editar/:id', element: <FormProceso modo="editar" />          },
+      { path: '/menus/crear',      element: <FormMenu modo="crear" />                 },
+      { path: '/menus/editar/:id', element: <FormMenu modo="editar" />                },
     ],
   },
 ]);

@@ -144,4 +144,15 @@ class MenuModel
             handleException($e);
         }
     }
+
+    public function quitarTodosItems($id_menu)
+    {
+        try {
+            $vSql = "DELETE FROM menu_items WHERE id_menu = $id_menu";
+            return $this->enlace->executeSQL_DML($vSql);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
 }

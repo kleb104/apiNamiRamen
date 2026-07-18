@@ -12,6 +12,10 @@ import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import MenuService from '../../services/MenuService';
+import AddIcon  from '@mui/icons-material/Add';
+import EditIcon  from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import Tooltip    from '@mui/material/Tooltip';
 
 function estaActivo(hora_apertura, hora_cierre) {
   const ahora = new Date();
@@ -42,13 +46,26 @@ export function ListadoMenus() {
 
   return (
     <Box sx={{ py: 4, px: 3 }}>
-      <Typography
-        component="h2"
-        sx={{ fontFamily: '"Noto Serif JP", serif', fontSize: 22,
-              fontWeight: 700, color: '#1B2A4A', mb: 3 }}
-      >
-        Listado de Menús
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography component="h2"
+          sx={{ fontFamily: '"Noto Serif JP", serif', fontSize: 22,
+                fontWeight: 700, color: '#1B2A4A' }}>
+          Listado de Menús
+        </Typography>
+        <Button
+          component={Link}
+          to="/menus/crear"
+          variant="contained"
+          startIcon={<AddIcon />}
+          sx={{
+            bgcolor: '#1B2A4A', color: '#fff',
+            textTransform: 'none', borderRadius: 1,
+            '&:hover': { bgcolor: '#152236' },
+          }}
+        >
+          Nuevo menú
+        </Button>
+      </Box>
 
       <TableContainer component={Paper}
         sx={{ boxShadow: 'none', border: '1px solid #e0e0e0', borderRadius: 2 }}>
@@ -56,9 +73,7 @@ export function ListadoMenus() {
           <TableHead>
             <TableRow sx={{ bgcolor: '#1B2A4A' }}>
               {['Nombre', 'Disponibilidad', 'Horario', 'Estado', 'Acciones'].map((h) => (
-                <TableCell key={h} sx={{ color: '#fff', fontWeight: 600, fontSize: 13 }}>
-                  {h}
-                </TableCell>
+                <TableCell key={h} sx={{ color: '#fff', fontWeight: 600, fontSize: 13 }}>{h}</TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -88,21 +103,35 @@ export function ListadoMenus() {
                     />
                     </TableCell>
                     <TableCell>
-                    <Button
-                        size="small"
-                        component={Link}
-                        to={estaActivo(menu.hora_apertura, menu.hora_cierre) ? '/menu-disponible' : '#'}
-                        variant="outlined"
-                        disabled={!estaActivo(menu.hora_apertura, menu.hora_cierre)}
-                        sx={{
-                        fontSize: 11, color: '#1B2A4A',
-                        borderColor: 'rgba(27,42,74,0.3)',
-                        textTransform: 'none', borderRadius: 1,
-                        }}
-                    >
-                        Ver menú
-                    </Button>
-                </TableCell>
+                      <Box sx={{ display: 'flex', gap: 0.5 }}>
+                        <Tooltip title="Ver menú">
+                          <span>
+                            <Button
+                              size="small"
+                              component={Link}
+                              to={estaActivo(menu.hora_apertura, menu.hora_cierre) ? '/menu-disponible' : '#'}
+                              variant="outlined"
+                              disabled={!estaActivo(menu.hora_apertura, menu.hora_cierre)}
+                              sx={{ fontSize: 11, color: '#1B2A4A',
+                                    borderColor: 'rgba(27,42,74,0.3)',
+                                    textTransform: 'none', borderRadius: 1 }}
+                            >
+                              Ver menú
+                            </Button>
+                          </span>
+                        </Tooltip>
+                        <Tooltip title="Editar">
+                          <IconButton
+                            component={Link}
+                            to={`/menus/editar/${menu.id}`}
+                            size="small"
+                            sx={{ color: '#C0392B' }}
+                          >
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </TableCell>
               </TableRow>
             ))}
           </TableBody>
