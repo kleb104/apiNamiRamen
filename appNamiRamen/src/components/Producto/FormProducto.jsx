@@ -207,209 +207,143 @@ export function FormProducto({ modo }) {
         <Grid container spacing={2}>
 
           {/* Nombre */}
-          <Grid item xs={12} sm={6}>
-            <Controller
-              name="nombre"
-              control={control}
+          <Grid xs={6}>
+            <Controller name="nombre" control={control}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Nombre del producto"
+                <TextField {...field} fullWidth label="Nombre del producto"
                   error={Boolean(errors.nombre)}
                   helperText={errors.nombre ? errors.nombre.message : ' '}
-                  variant="outlined"
-                />
-              )}
-            />
+                  variant="outlined" />
+              )} />
           </Grid>
 
           {/* Precio */}
-          <Grid item xs={12} sm={6}>
-            <Controller
-              name="precio"
-              control={control}
+          <Grid xs={6}>
+            <Controller name="precio" control={control}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Precio (₡)"
-                  type="number"
-                  inputProps={{ min: 0, step: '0.01' }}
+                <TextField {...field} fullWidth label="Precio (₡)" type="number"
+                  slotProps={{ htmlInput: { min: 0, step: '0.01' } }}
                   error={Boolean(errors.precio)}
                   helperText={errors.precio ? errors.precio.message : ' '}
-                  variant="outlined"
-                />
-              )}
-            />
+                  variant="outlined" />
+              )} />
           </Grid>
 
           {/* Descripción */}
-          <Grid item xs={12}>
-            <Controller
-              name="descripcion"
-              control={control}
+          <Grid xs={12}>
+            <Controller name="descripcion" control={control}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="Descripción"
-                  multiline
-                  rows={3}
+                <TextField {...field} fullWidth label="Descripción"
+                  multiline rows={3}
                   error={Boolean(errors.descripcion)}
                   helperText={errors.descripcion ? errors.descripcion.message : ' '}
-                  variant="outlined"
-                />
-              )}
-            />
+                  variant="outlined" />
+              )} />
           </Grid>
 
           {/* Categoría */}
-          <Grid item xs={12} sm={6}>
+          <Grid xs={6}>
             <FormControl fullWidth error={Boolean(errors.id_categoria)}>
-              <InputLabel id="label-categoria">Categoría</InputLabel>
-              <Controller
-                name="id_categoria"
-                control={control}
+              <InputLabel id="label-categoria" shrink>Categoría</InputLabel>
+              <Controller name="id_categoria" control={control}
                 render={({ field }) => (
-                  <Select
-                    {...field}
-                    labelId="label-categoria"
-                    label="Categoría"
-                    value={field.value ?? ''}
-                  >
+                  <Select {...field} labelId="label-categoria" label="Categoría"
+                    value={field.value ?? ''} displayEmpty notched>
+                    <MenuItem value=""><em style={{ color: '#aaa' }}>Seleccionar categoría...</em></MenuItem>
                     {categorias.map((cat) => (
-                      <MenuItem key={cat.id} value={cat.id}>
-                        {cat.nombre_categoria}
-                      </MenuItem>
+                      <MenuItem key={cat.id} value={cat.id}>{cat.nombre_categoria}</MenuItem>
                     ))}
                   </Select>
-                )}
-              />
-              <FormHelperText>
-                {errors.id_categoria ? errors.id_categoria.message : ' '}
-              </FormHelperText>
+                )} />
+              <FormHelperText>{errors.id_categoria ? errors.id_categoria.message : ' '}</FormHelperText>
             </FormControl>
           </Grid>
 
           {/* Imagen URL */}
-          <Grid item xs={12} sm={6}>
-            <Controller
-              name="imagen_url"
-              control={control}
+          <Grid xs={6}>
+            <Controller name="imagen_url" control={control}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  fullWidth
-                  label="URL de la imagen"
+                <TextField {...field} fullWidth label="URL de la imagen"
                   placeholder="https://ejemplo.com/imagen.jpg"
                   error={Boolean(errors.imagen_url)}
                   helperText={errors.imagen_url ? errors.imagen_url.message : ' '}
-                  variant="outlined"
-                />
-              )}
-            />
+                  variant="outlined" />
+              )} />
           </Grid>
 
           {/* Previsualización imagen */}
           {preview && (
-            <Grid item xs={12}>
+            <Grid xs={12}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Typography sx={{ fontSize: 13, color: 'text.secondary' }}>
-                  Vista previa:
-                </Typography>
-                <Box
-                  component="img"
-                  src={preview}
-                  alt="Vista previa"
+                <Typography sx={{ fontSize: 13, color: 'text.secondary' }}>Vista previa:</Typography>
+                <Box component="img" src={preview} alt="Vista previa"
                   onError={() => setPreview('')}
-                  sx={{ height: 100, borderRadius: 2, objectFit: 'cover' }}
-                />
+                  sx={{ height: 100, borderRadius: 2, objectFit: 'cover' }} />
               </Box>
             </Grid>
           )}
 
-          {/* Ingredientes — Autocomplete multiselect */}
-          <Grid item xs={12}>
-            <Controller
-              name="ingredientes"
-              control={control}
-              render={({ field }) => (
-                <Autocomplete
-                  multiple
-                  options={ingredientes}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) => option.nombre_ingrediente ?? ''}
-                  isOptionEqualToValue={(option, value) =>
-                    Number(option.id) === Number(value.id)
-                  }
-                  // Valor actual: objetos completos que coincidan con los ids guardados
-                  value={
-                    ingredientes.filter((i) =>
-                      (field.value ?? []).includes(Number(i.id))
-                    )
-                  }
-                  onChange={(_, newValue) => {
-                    field.onChange(newValue.map((i) => Number(i.id)));
-                  }}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props} key={option.id}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                      />
-                      {option.nombre_ingrediente}
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
+          {/* Ingredientes */}
+            <Grid size={12}>
+              <FormControl fullWidth error={Boolean(errors.ingredientes)}>
+                <InputLabel id="label-ingredientes" shrink>
+                  Ingredientes
+                </InputLabel>
+                <Controller
+                  name="ingredientes"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      labelId="label-ingredientes"
                       label="Ingredientes"
-                      placeholder="Seleccionar ingredientes..."
-                      error={Boolean(errors.ingredientes)}
-                      helperText={
-                        errors.ingredientes ? errors.ingredientes.message : ' '
-                      }
-                      variant="outlined"
-                    />
+                      multiple
+                      value={field.value ?? []}
+                      displayEmpty
+                      notched
+                      renderValue={(selected) => {
+                        if (selected.length === 0) {
+                          return <em style={{ color: '#aaa' }}>Seleccionar ingredientes...</em>;
+                        }
+                        return ingredientes
+                          .filter((i) => selected.includes(Number(i.id)))
+                          .map((i) => i.nombre_ingrediente)
+                          .join(', ');
+                      }}
+                    >
+                      {ingredientes.map((ing) => (
+                        <MenuItem key={ing.id} value={Number(ing.id)}>
+                          <Checkbox checked={(field.value ?? []).includes(Number(ing.id))} />
+                          <ListItemText primary={ing.nombre_ingrediente} />
+                        </MenuItem>
+                      ))}
+                    </Select>
                   )}
                 />
-              )}
-            />
-          </Grid>
+                <FormHelperText>
+                  {errors.ingredientes ? errors.ingredientes.message : ' '}
+                </FormHelperText>
+              </FormControl>
+            </Grid>
 
           {/* Divider */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Divider sx={{ my: 1 }} />
           </Grid>
 
           {/* Botones */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  bgcolor: '#C0392B', color: '#fff',
-                  textTransform: 'none', borderRadius: 1,
-                  px: 4, py: 1.25,
-                  '&:hover': { bgcolor: '#a93226' },
-                }}
-              >
+              <Button type="submit" variant="contained"
+                sx={{ bgcolor: '#C0392B', color: '#fff', textTransform: 'none',
+                      borderRadius: 1, px: 4, py: 1.25, '&:hover': { bgcolor: '#a93226' } }}>
                 {modo === 'crear' ? 'Crear producto' : 'Guardar cambios'}
               </Button>
-              <Button
-                variant="outlined"
-                startIcon={<ArrowBackIcon />}
+              <Button variant="outlined" startIcon={<ArrowBackIcon />}
                 onClick={() => navigate('/admin/productos')}
-                sx={{
-                  color: '#1B2A4A', borderColor: 'rgba(27,42,74,0.3)',
-                  textTransform: 'none', borderRadius: 1,
-                  '&:hover': { borderColor: '#1B2A4A' },
-                }}
-              >
+                sx={{ color: '#1B2A4A', borderColor: 'rgba(27,42,74,0.3)',
+                      textTransform: 'none', borderRadius: 1,
+                      '&:hover': { borderColor: '#1B2A4A' } }}>
                 Cancelar
               </Button>
             </Box>

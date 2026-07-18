@@ -200,7 +200,7 @@ export function FormMenu({ modo }) {
         <Grid container spacing={2}>
 
           {/* Nombre */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Controller
               name="nombre_menu"
               control={control}
@@ -218,7 +218,7 @@ export function FormMenu({ modo }) {
           </Grid>
 
           {/* Rango de fechas */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Typography sx={{ fontSize: 13, fontWeight: 600,
                               color: 'rgba(27,42,74,0.6)', mb: 1,
                               letterSpacing: '0.05em', textTransform: 'uppercase' }}>
@@ -226,7 +226,7 @@ export function FormMenu({ modo }) {
             </Typography>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <Controller
             name="fecha_inicio"
             control={control}
@@ -245,7 +245,7 @@ export function FormMenu({ modo }) {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <Controller
             name="fecha_fin"
             control={control}
@@ -265,7 +265,7 @@ export function FormMenu({ modo }) {
           </Grid>
 
           {/* Rango de horas */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Typography sx={{ fontSize: 13, fontWeight: 600,
                               color: 'rgba(27,42,74,0.6)', mb: 1,
                               letterSpacing: '0.05em', textTransform: 'uppercase' }}>
@@ -273,7 +273,7 @@ export function FormMenu({ modo }) {
             </Typography>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <Controller
             name="hora_apertura"
             control={control}
@@ -292,7 +292,7 @@ export function FormMenu({ modo }) {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <Controller
             name="hora_cierre"
             control={control}
@@ -312,7 +312,7 @@ export function FormMenu({ modo }) {
           </Grid>
 
           {/* Productos */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Controller
               name="productos"
               control={control}
@@ -359,7 +359,7 @@ export function FormMenu({ modo }) {
           </Grid>
 
           {/* Combos */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Controller
               name="combos"
               control={control}
@@ -406,12 +406,12 @@ export function FormMenu({ modo }) {
           </Grid>
 
           {/* Divider */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Divider sx={{ my: 1 }} />
           </Grid>
 
           {/* Botones */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Button
                 type="submit"

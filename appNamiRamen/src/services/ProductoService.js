@@ -22,7 +22,7 @@ class ProductoService {
   updateProducto(producto) {
     return axios({
       method: 'put',
-      url: BASE_URL + '/' + producto.id,
+      url: BASE_URL + '/update/' + producto.id,
       data: JSON.stringify(producto),
     });
   }

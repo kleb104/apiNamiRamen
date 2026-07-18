@@ -216,9 +216,11 @@ export function FormProceso({ modo }) {
         <Grid container spacing={2}>
 
           {/* Producto */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <FormControl fullWidth error={Boolean(errors.id_producto)}>
-              <InputLabel id="label-producto">Producto</InputLabel>
+              <InputLabel id="label-producto" shrink>
+                Producto
+              </InputLabel>
               <Controller
                 name="id_producto"
                 control={control}
@@ -228,8 +230,13 @@ export function FormProceso({ modo }) {
                     labelId="label-producto"
                     label="Producto"
                     value={field.value ?? ''}
-                    disabled={modo === 'editar'} // en editar el producto no cambia
+                    disabled={modo === 'editar'}
+                    displayEmpty
+                    notched
                   >
+                    <MenuItem value="">
+                      <em style={{ color: '#aaa' }}>Seleccionar producto...</em>
+                    </MenuItem>
                     {productos.map((p) => (
                       <MenuItem key={p.id} value={Number(p.id)}>
                         {p.nombre}
@@ -245,7 +252,7 @@ export function FormProceso({ modo }) {
           </Grid>
 
           {/* Estaciones dinámicas */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between',
                        alignItems: 'center', mb: 1.5 }}>
               <Typography sx={{ fontWeight: 600, color: '#1B2A4A', fontSize: 15 }}>
@@ -271,98 +278,93 @@ export function FormProceso({ modo }) {
               </Typography>
             )}
 
-            {filas.map((fila, index) => (
+           {filas.map((fila, index) => (
               <Paper
                 key={index}
                 variant="outlined"
                 sx={{ p: 2, mb: 1.5, borderRadius: 2,
                       borderColor: 'rgba(27,42,74,0.15)' }}
               >
-                <Grid container spacing={2} alignItems="center">
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 
                   {/* Número de paso */}
-                  <Grid item xs={2} sm={1}>
-                    <Box sx={{
-                      width: 36, height: 36, borderRadius: '50%',
-                      bgcolor: '#1B2A4A', color: '#fff',
-                      display: 'flex', alignItems: 'center',
-                      justifyContent: 'center', fontWeight: 700, fontSize: 14,
-                    }}>
-                      {index + 1}
-                    </Box>
-                  </Grid>
+                  <Box sx={{
+                    width: 36, height: 36, borderRadius: '50%',
+                    bgcolor: '#1B2A4A', color: '#fff',
+                    display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', fontWeight: 700,
+                    fontSize: 14, flexShrink: 0,
+                  }}>
+                    {index + 1}
+                  </Box>
 
-                  {/* Select de estación */}
-                  <Grid item xs={10} sm={7}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel>Estación</InputLabel>
-                      <Select
-                        value={fila.id_estacion}
-                        label="Estación"
-                        onChange={(e) => cambiarEstacion(index, e.target.value)}
-                      >
-                        {estaciones.map((est) => (
-                          <MenuItem key={est.id} value={Number(est.id)}>
-                            {est.nombre_estacion}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
+                  {/* Select de estación — ocupa todo el espacio disponible */}
+                  <FormControl fullWidth>
+                    <InputLabel>Estación</InputLabel>
+                    <Select
+                      value={fila.id_estacion}
+                      label="Estación"
+                      onChange={(e) => cambiarEstacion(index, e.target.value)}
+                    >
+                      {estaciones.map((est) => (
+                        <MenuItem key={est.id} value={Number(est.id)}>
+                          {est.nombre_estacion}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                  {/* Botones subir/bajar/eliminar */}
-                  <Grid item xs={12} sm={4}>
-                    <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-end' }}>
-                      <Tooltip title="Subir">
-                        <span>
-                          <IconButton
-                            size="small"
-                            onClick={() => subirFila(index)}
-                            disabled={index === 0}
-                            sx={{ color: '#1B2A4A' }}
-                          >
-                            ▲
-                          </IconButton>
-                        </span>
-                      </Tooltip>
-                      <Tooltip title="Bajar">
-                        <span>
-                          <IconButton
-                            size="small"
-                            onClick={() => bajarFila(index)}
-                            disabled={index === filas.length - 1}
-                            sx={{ color: '#1B2A4A' }}
-                          >
-                            ▼
-                          </IconButton>
-                        </span>
-                      </Tooltip>
-                      <Tooltip title="Eliminar estación">
-                        <span>
-                          <IconButton
-                            size="small"
-                            onClick={() => eliminarFila(index)}
-                            disabled={filas.length === 1}
-                            sx={{ color: '#C0392B' }}
-                          >
-                            <DeleteIcon fontSize="small" />
-                          </IconButton>
-                        </span>
-                      </Tooltip>
-                    </Box>
-                  </Grid>
-                </Grid>
+                  {/* Botones */}
+                  <Box sx={{ display: 'flex', gap: 0.5, flexShrink: 0 }}>
+                    <Tooltip title="Subir">
+                      <span>
+                        <IconButton
+                          size="small"
+                          onClick={() => subirFila(index)}
+                          disabled={index === 0}
+                          sx={{ color: '#1B2A4A' }}
+                        >
+                          ▲
+                        </IconButton>
+                      </span>
+                    </Tooltip>
+                    <Tooltip title="Bajar">
+                      <span>
+                        <IconButton
+                          size="small"
+                          onClick={() => bajarFila(index)}
+                          disabled={index === filas.length - 1}
+                          sx={{ color: '#1B2A4A' }}
+                        >
+                          ▼
+                        </IconButton>
+                      </span>
+                    </Tooltip>
+                    <Tooltip title="Eliminar">
+                      <span>
+                        <IconButton
+                          size="small"
+                          onClick={() => eliminarFila(index)}
+                          disabled={filas.length === 1}
+                          sx={{ color: '#C0392B' }}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </span>
+                    </Tooltip>
+                  </Box>
+                </Box>
               </Paper>
             ))}
           </Grid>
 
           {/* Divider */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Divider sx={{ my: 1 }} />
           </Grid>
 
           {/* Botones */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Button
                 type="submit"

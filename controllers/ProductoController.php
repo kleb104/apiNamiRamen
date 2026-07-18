@@ -13,7 +13,6 @@ class ProductoController
     public function index()
     {
         $data = $this->model->all();
-        // Marcar cuáles están en el menú activo ahora
         $idsEnMenu = $this->model->getIdsEnMenuActivo();
         foreach ($data as &$prod) {
             $prod['en_menu_ahora'] = in_array($prod['id'], $idsEnMenu);
@@ -97,8 +96,9 @@ class ProductoController
         echo json_encode(["error" => false, "mensaje" => "Producto creado", "id" => $id]);
     }
 
-    public function update($id, $input)
+    public function update($id)
     {
+         $input = json_decode(file_get_contents('php://input'), true);
         $requeridos = ['nombre', 'precio', 'id_categoria'];
         foreach ($requeridos as $campo) {
             if (!isset($input[$campo]) || $input[$campo] === '') {

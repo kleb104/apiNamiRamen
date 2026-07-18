@@ -14,7 +14,7 @@ class ComboService {
   updateCombo(combo) {
     return axios({
       method: 'put',
-      url: BASE_URL + '/' + combo.id,
+      url: BASE_URL + '/update/' + combo.id,
       data: JSON.stringify(combo),
     });
   }

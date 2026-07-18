@@ -35,8 +35,10 @@ class ProcesoPreparacionController
         ]);
     }
 
-    public function store($input)
+    public function store()
     {
+        $input = json_decode(file_get_contents('php://input'), true);
+
         if (empty($input['id_producto'])) {
             http_response_code(400);
             echo json_encode(["error" => true, "mensaje" => "El producto es requerido"]);
@@ -48,7 +50,6 @@ class ProcesoPreparacionController
             return;
         }
 
-        // Verificar que no exista ya un proceso para ese producto
         $existe = $this->model->getByProducto($input['id_producto']);
         if (!empty($existe)) {
             http_response_code(409);
@@ -68,15 +69,16 @@ class ProcesoPreparacionController
         echo json_encode(["error" => false, "mensaje" => "Proceso creado"]);
     }
 
-    public function update($id, $input)
+    public function update($id)
     {
+        $input = json_decode(file_get_contents('php://input'), true);
+
         if (empty($input['estaciones']) || !is_array($input['estaciones'])) {
             http_response_code(400);
             echo json_encode(["error" => true, "mensaje" => "Debe agregar al menos una estación"]);
             return;
         }
 
-        // Borrar todas las estaciones actuales y reinsertar
         $this->model->deleteByProducto($id);
 
         foreach ($input['estaciones'] as $estacion) {

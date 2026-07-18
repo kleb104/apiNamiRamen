@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Autocomplete from '@mui/material/Autocomplete';
+import ListItemText from '@mui/material/ListItemText';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Chip from '@mui/material/Chip';
@@ -224,7 +225,7 @@ export function FormCombo({ modo }) {
         <Grid container spacing={2}>
 
           {/* Nombre */}
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <Controller
               name="nombre_combo"
               control={control}
@@ -242,7 +243,7 @@ export function FormCombo({ modo }) {
           </Grid>
 
           {/* Precio especial */}
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <Controller
               name="precio_especial"
               control={control}
@@ -252,7 +253,7 @@ export function FormCombo({ modo }) {
                   fullWidth
                   label="Precio especial (₡)"
                   type="number"
-                  inputProps={{ min: 0, step: '0.01' }}
+                  slotProps={{ htmlInput: { min: 0, step: '0.01' } }}
                   error={Boolean(errors.precio_especial)}
                   helperText={errors.precio_especial ? errors.precio_especial.message : ' '}
                   variant="outlined"
@@ -262,7 +263,7 @@ export function FormCombo({ modo }) {
           </Grid>
 
           {/* Categoría bloqueada — solo lectura */}
-          <Grid item xs={12} sm={6}>
+          <Grid xs={12} sm={6}>
             <TextField
               fullWidth
               label="Categoría"
@@ -282,63 +283,61 @@ export function FormCombo({ modo }) {
             />
           </Grid>
 
-          {/* Productos multiselect */}
-          <Grid item xs={12}>
-            <Controller
-              name="productos"
-              control={control}
-              render={({ field }) => (
-                <Autocomplete
-                  multiple
-                  options={productos}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) => option.nombre ?? ''}
-                  isOptionEqualToValue={(option, value) =>
-                    Number(option.id) === Number(value.id)
-                  }
-                  value={
-                    productos.filter((p) =>
-                      (field.value ?? []).includes(Number(p.id))
-                    )
-                  }
-                  onChange={(_, newValue) => {
-                    const nuevosIds = newValue.map((p) => Number(p.id));
-                    field.onChange(nuevosIds);
-                    // Si el principal ya no está en la lista, limpiarlo
-                    const principalActual = watch('id_producto_principal');
-                    if (principalActual && !nuevosIds.includes(principalActual)) {
-                      setValue('id_producto_principal', '');
-                    }
-                  }}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props} key={option.id}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                      />
-                      {option.nombre}
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
+          {/* Productos */}
+            <Grid size={12}>
+              <FormControl fullWidth error={Boolean(errors.productos)}>
+                <InputLabel id="label-productos" shrink>
+                  Productos del combo
+                </InputLabel>
+                <Controller
+                  name="productos"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      labelId="label-productos"
                       label="Productos del combo"
-                      placeholder="Seleccionar productos..."
-                      error={Boolean(errors.productos)}
-                      helperText={errors.productos ? errors.productos.message : ' '}
-                      variant="outlined"
-                    />
+                      multiple
+                      value={field.value ?? []}
+                      displayEmpty
+                      notched
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                        // Si el principal ya no está en la lista, limpiarlo
+                        const nuevosIds = e.target.value;
+                        const principalActual = watch('id_producto_principal');
+                        if (principalActual && !nuevosIds.includes(principalActual)) {
+                          setValue('id_producto_principal', '');
+                        }
+                      }}
+                      renderValue={(selected) => {
+                        if (selected.length === 0) {
+                          return <em style={{ color: '#aaa' }}>Seleccionar productos...</em>;
+                        }
+                        return productos
+                          .filter((p) => selected.includes(Number(p.id)))
+                          .map((p) => p.nombre)
+                          .join(', ');
+                      }}
+                    >
+                      {productos.map((p) => (
+                        <MenuItem key={p.id} value={Number(p.id)}>
+                          <Checkbox checked={(field.value ?? []).includes(Number(p.id))} />
+                          <ListItemText primary={p.nombre} />
+                        </MenuItem>
+                      ))}
+                    </Select>
                   )}
                 />
-              )}
-            />
-          </Grid>
+                <FormHelperText>
+                  {errors.productos ? errors.productos.message : ' '}
+                </FormHelperText>
+              </FormControl>
+            </Grid>
 
           {/* Platillo principal — solo aparece si hay productos seleccionados */}
           {productosSeleccionados.length > 0 && (
-            <Grid item xs={12} sm={6}>
+            <Grid xs={12} sm={6}>
               <FormControl fullWidth error={Boolean(errors.id_producto_principal)}>
                 <InputLabel id="label-principal">Platillo principal</InputLabel>
                 <Controller
@@ -377,12 +376,12 @@ export function FormCombo({ modo }) {
           )}
 
           {/* Divider */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Divider sx={{ my: 1 }} />
           </Grid>
 
           {/* Botones */}
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Button
                 type="submit"

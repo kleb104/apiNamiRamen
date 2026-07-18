@@ -184,6 +184,7 @@ class ComboModel
                     AND m.hora_cierre   >= TIME(NOW())
                     AND mi.id_combo IS NOT NULL";
             $result = $this->enlace->executeSQL($vSql, null, 'asoc');
+            if (empty($result)) return [];
             return array_column($result, 'id_combo');
         } catch (Exception $e) {
             handleException($e);

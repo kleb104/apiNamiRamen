@@ -77,8 +77,10 @@ class MenuController
         echo json_encode(["error" => false, "mensaje" => "Menú creado", "id" => $id]);
     }
 
-    public function update($id, $input)
+    public function update($id)
     {
+        $input = json_decode(file_get_contents('php://input'), true);
+
         $requeridos = ['nombre_menu', 'hora_apertura', 'hora_cierre'];
         foreach ($requeridos as $campo) {
             if (empty($input[$campo])) {
@@ -101,7 +103,6 @@ class MenuController
             $activo
         );
 
-        // Actualizar items: borrar todos y reinsertar
         $this->model->quitarTodosItems($id);
         if (!empty($input['items']) && is_array($input['items'])) {
             foreach ($input['items'] as $item) {

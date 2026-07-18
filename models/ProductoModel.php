@@ -174,6 +174,8 @@ class ProductoModel
                     AND m.hora_cierre   >= TIME(NOW())
                     AND mi.id_producto IS NOT NULL";
             $result = $this->enlace->executeSQL($vSql, null, 'asoc');
+            // Si no hay menú activo, devolver array vacío en vez de null
+            if (empty($result)) return [];
             return array_column($result, 'id_producto');
         } catch (Exception $e) {
             handleException($e);

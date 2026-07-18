@@ -102,8 +102,10 @@ class ComboController
         echo json_encode(["error" => false, "mensaje" => "Combo creado", "id" => $id]);
     }
 
-    public function update($id, $input)
+    public function update($id)
     {
+        $input = json_decode(file_get_contents('php://input'), true);
+        
         $requeridos = ['nombre_combo', 'precio_especial', 'id_categoria'];
         foreach ($requeridos as $campo) {
             if (!isset($input[$campo]) || $input[$campo] === '') {

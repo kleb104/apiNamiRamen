@@ -63,7 +63,7 @@ export default function TablaAdminCombos() {
         <Table>
           <TableHead>
             <TableRow sx={{ bgcolor: '#1B2A4A' }}>
-              {['Nombre', 'Precio especial', 'Categoría', 'Estado', 'Acciones'].map((h) => (
+              {['Nombre Combo', 'Precio ', 'Estado', 'Acciones'].map((h) => (
                 <TableCell key={h} sx={{ color: '#fff', fontWeight: 600, fontSize: 13 }}>
                   {h}
                 </TableCell>
@@ -78,9 +78,6 @@ export default function TablaAdminCombos() {
                 </TableCell>
                 <TableCell sx={{ fontSize: 13, color: '#C0392B', fontWeight: 600 }}>
                   ₡{Number(combo.precio_especial).toLocaleString('es-CR')}
-                </TableCell>
-                <TableCell sx={{ fontSize: 13 }}>
-                  {combo.nombre_categoria}
                 </TableCell>
                 <TableCell>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
