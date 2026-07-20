@@ -58,43 +58,54 @@ class ProductoController
         echo json_encode(["error" => false, "data" => $producto]);
     }
 
-    public function store($input)
+    public function create()
     {
-        $requeridos = ['nombre', 'precio', 'id_categoria'];
-        foreach ($requeridos as $campo) {
-            if (!isset($input[$campo]) || $input[$campo] === '') {
-                http_response_code(400);
-                echo json_encode(["error" => true, "mensaje" => "El campo $campo es requerido"]);
+        try {
+            $input = json_decode(file_get_contents('php://input'), true);
+            
+            if ($input === null) {
+                echo json_encode(["error" => true, "mensaje" => "Input nulo", "raw" => file_get_contents('php://input')]);
                 return;
             }
-        }
 
-        // Validar nombre único
-        $existe = $this->model->getByNombre($input['nombre']);
-        if (!empty($existe)) {
-            http_response_code(409);
-            echo json_encode(["error" => true, "mensaje" => "Ya existe un producto con ese nombre"]);
-            return;
-        }
-
-        $descripcion = $input['descripcion'] ?? null;
-        $imagen_url  = $input['imagen_url']  ?? null;
-
-        $id = $this->model->create(
-            $input['nombre'], $descripcion,
-            $input['precio'], $imagen_url, $input['id_categoria']
-        );
-
-        // Asociar ingredientes si vienen
-        if (!empty($input['ingredientes']) && is_array($input['ingredientes'])) {
-            foreach ($input['ingredientes'] as $id_ingrediente) {
-                $this->model->agregarIngrediente($id, $id_ingrediente);
+            $requeridos = ['nombre', 'precio', 'id_categoria'];
+            foreach ($requeridos as $campo) {
+                if (!isset($input[$campo]) || $input[$campo] === '') {
+                    http_response_code(400);
+                    echo json_encode(["error" => true, "mensaje" => "El campo $campo es requerido"]);
+                    return;
+                }
             }
-        }
 
-        http_response_code(201);
-        echo json_encode(["error" => false, "mensaje" => "Producto creado", "id" => $id]);
-    }
+            $existe = $this->model->getByNombre($input['nombre']);
+            if (!empty($existe)) {
+                http_response_code(409);
+                echo json_encode(["error" => true, "mensaje" => "Ya existe un producto con ese nombre"]);
+                return;
+            }
+
+            $descripcion = $input['descripcion'] ?? null;
+            $imagen_url  = $input['imagen_url']  ?? null;
+
+            $id = $this->model->create(
+                $input['nombre'], $descripcion,
+                $input['precio'], $imagen_url, $input['id_categoria']
+            );
+
+            if (!empty($input['ingredientes']) && is_array($input['ingredientes'])) {
+                foreach ($input['ingredientes'] as $id_ingrediente) {
+                    $this->model->agregarIngrediente($id, $id_ingrediente);
+                }
+            }
+
+            http_response_code(201);
+            echo json_encode(["error" => false, "mensaje" => "Producto creado", "id" => $id]);
+
+        } catch (\Throwable $th) {
+            http_response_code(500);
+            echo json_encode(["status" => 500, "result" => $th->getMessage(), "line" => $th->getLine(), "file" => $th->getFile()]);
+        }
+}
 
     public function update($id)
     {

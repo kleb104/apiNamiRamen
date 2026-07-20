@@ -39,16 +39,18 @@ const productoSchema = yup.object({
   descripcion: yup
     .string()
     .max(500, 'La descripción no puede superar 500 caracteres'),
-  precio: yup
-    .number()
-    .typeError('El precio debe ser un número')
-    .required('El precio es requerido')
-    .positive('El precio debe ser mayor a 0')
-    .max(999999, 'El precio es demasiado alto'),
-  id_categoria: yup
-    .number()
-    .typeError('Seleccione una categoría')
-    .required('La categoría es requerida'),
+    id_categoria: yup
+      .number()
+      .typeError('Seleccione una categoría')
+      .required('La categoría es requerida')
+      .min(1, 'Seleccione una categoría'),
+
+    precio: yup
+      .number()
+      .typeError('El precio debe ser un número')
+      .required('El precio es requerido')
+      .positive('El precio debe ser mayor a 0')
+      .max(999999, 'El precio es demasiado alto'),
   imagen_url: yup
     .string()
     .url('Debe ser una URL válida (ej: https://...)')
@@ -84,7 +86,7 @@ export function FormProducto({ modo }) {
       nombre:       '',
       descripcion:  '',
       precio:       '',
-      id_categoria: '',
+      id_categoria: '',  // dejar como string vacío está bien
       imagen_url:   '',
       ingredientes: [],
       activo:       true,
@@ -143,58 +145,69 @@ export function FormProducto({ modo }) {
     }
   }, [modo, id, loadedData]);
 
-  const onError = (errors) => console.log('Errores:', errors);
+  const onError = (errors) => {
+    console.log('ERRORES DE VALIDACIÓN:', JSON.stringify(errors, null, 2));
+  };
 
   const onSubmit = (data) => {
-    const payload = {
-      ...data,
-      precio:       Number(data.precio),
-      id_categoria: Number(data.id_categoria),
-      imagen_url:   data.imagen_url || null,
-    };
-
-    if (modo === 'crear') {
-      ProductoService.getProductos()
-        .then((res) => {
-          const todos = res.data?.data ?? [];
-          const existe = todos.find(
-            (p) => p.nombre.toLowerCase() === payload.nombre.toLowerCase()
-          );
-          if (existe) {
-            toast.error('Ya existe un producto con ese nombre', {
-              duration: 4000, position: 'top-center',
-            });
-            return null;
-          }
-          return ProductoService.createProducto(payload);
-        })
-        .then((res) => {
-          if (!res) return;
-          toast.success('Producto creado correctamente', {
-            duration: 4000, position: 'top-center',
-          });
-          navigate('/admin/productos');
-        })
-        .catch(() => {
-          toast.error('Error al crear el producto', {
-            duration: 4000, position: 'top-center',
-          });
-        });
-    } else {
-      ProductoService.updateProducto({ ...payload, id: Number(id) })
-        .then(() => {
-          toast.success('Producto actualizado correctamente', {
-            duration: 4000, position: 'top-center',
-          });
-          navigate('/admin/productos');
-        })
-        .catch(() => {
-          toast.error('Error al actualizar el producto', {
-            duration: 4000, position: 'top-center',
-          });
-        });
-    }
+      console.log('DATA QUE LLEGA AL SUBMIT:', data);
+      console.log('TIPOS:', {
+        nombre: typeof data.nombre,
+        precio: typeof data.precio,
+        id_categoria: typeof data.id_categoria,
+        ingredientes: typeof data.ingredientes,
+      });
+  const payload = {
+    ...data,
+    precio:       Number(data.precio),
+    id_categoria: Number(data.id_categoria),
+    imagen_url:   data.imagen_url || null,
   };
+
+  if (modo === 'crear') {
+    // Primero verificar nombre único
+    ProductoService.getProductos()
+      .then((res) => {
+        const todos = res.data?.data ?? [];
+        const existe = todos.find(
+          (p) => p.nombre.toLowerCase() === payload.nombre.toLowerCase()
+        );
+        if (existe) {
+          toast.error('Ya existe un producto con ese nombre', {
+            duration: 4000, position: 'top-center',
+          });
+          return null;
+        }
+        // Solo crear si no existe
+        return ProductoService.createProducto(payload);
+      })
+      .then((res) => {
+        if (!res) return;
+        toast.success('Producto creado correctamente', {
+          duration: 4000, position: 'top-center',
+        });
+        navigate('/admin/productos');
+      })
+      .catch(() => {
+        toast.error('Error al crear el producto', {
+          duration: 4000, position: 'top-center',
+        });
+      });
+  } else {
+    ProductoService.updateProducto({ ...payload, id: Number(id) })
+      .then(() => {
+        toast.success('Producto actualizado correctamente', {
+          duration: 4000, position: 'top-center',
+        });
+        navigate('/admin/productos');
+      })
+      .catch(() => {
+        toast.error('Error al actualizar el producto', {
+          duration: 4000, position: 'top-center',
+        });
+      });
+  }
+};
 
   return (
     <Box sx={{ py: 4, px: 3, maxWidth: 900, mx: 'auto' }}>
@@ -208,7 +221,7 @@ export function FormProducto({ modo }) {
         <Grid container spacing={2}>
 
           {/* Nombre */}
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <Controller name="nombre" control={control}
               render={({ field }) => (
                 <TextField {...field} fullWidth label="Nombre del producto"
@@ -219,7 +232,7 @@ export function FormProducto({ modo }) {
           </Grid>
 
           {/* Precio */}
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <Controller name="precio" control={control}
               render={({ field }) => (
                 <TextField {...field} fullWidth label="Precio (₡)" type="number"
@@ -231,7 +244,7 @@ export function FormProducto({ modo }) {
           </Grid>
 
           {/* Descripción */}
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Controller name="descripcion" control={control}
               render={({ field }) => (
                 <TextField {...field} fullWidth label="Descripción"
@@ -243,16 +256,28 @@ export function FormProducto({ modo }) {
           </Grid>
 
           {/* Categoría */}
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <FormControl fullWidth error={Boolean(errors.id_categoria)}>
               <InputLabel id="label-categoria" shrink>Categoría</InputLabel>
               <Controller name="id_categoria" control={control}
                 render={({ field }) => (
-                  <Select {...field} labelId="label-categoria" label="Categoría"
-                    value={field.value ?? ''} displayEmpty notched>
+                  <Select
+                    {...field}
+                    labelId="label-categoria"
+                    label="Categoría"
+                    value={field.value ?? ''}
+                    displayEmpty
+                    notched
+                    onChange={(e) => {
+                      // Convertir a número explícitamente
+                      field.onChange(e.target.value === '' ? '' : Number(e.target.value));
+                    }}
+                  >
                     <MenuItem value=""><em style={{ color: '#aaa' }}>Seleccionar categoría...</em></MenuItem>
                     {categorias.map((cat) => (
-                      <MenuItem key={cat.id} value={cat.id}>{cat.nombre_categoria}</MenuItem>
+                      <MenuItem key={cat.id} value={Number(cat.id)}>
+                        {cat.nombre_categoria}
+                      </MenuItem>
                     ))}
                   </Select>
                 )} />
@@ -261,7 +286,7 @@ export function FormProducto({ modo }) {
           </Grid>
 
           {/* Imagen URL */}
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <Controller name="imagen_url" control={control}
               render={({ field }) => (
                 <TextField {...field} fullWidth label="URL de la imagen"
@@ -274,7 +299,7 @@ export function FormProducto({ modo }) {
 
           {/* Previsualización imagen */}
           {preview && (
-            <Grid xs={12}>
+            <Grid item xs={12}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Typography sx={{ fontSize: 13, color: 'text.secondary' }}>Vista previa:</Typography>
                 <Box component="img" src={preview} alt="Vista previa"
@@ -284,76 +309,66 @@ export function FormProducto({ modo }) {
             </Grid>
           )}
 
-          {/* Ingredientes */}
-              <Box sx={{ width: '100%' }}>
-                <Controller
-                  name="ingredientes"
-                  control={control}
-                  render={({ field }) => (
-                    <Autocomplete
-                      multiple
-                      options={ingredientes}
-                      disableCloseOnSelect
-                      getOptionLabel={(option) => option.nombre_ingrediente ?? ''}
-                      isOptionEqualToValue={(option, value) =>
-                        Number(option.id) === Number(value.id)
-                      }
-                      value={ingredientes.filter((i) =>
-                        (field.value ?? []).includes(Number(i.id))
-                      )}
-                      onChange={(_, newValue) => {
-                        field.onChange(newValue.map((i) => Number(i.id)));
-                      }}
-                      renderOption={(props, option, { selected }) => (
-                        <li {...props} key={option.id}>
-                          <Checkbox
-                            icon={icon}
-                            checkedIcon={checkedIcon}
-                            style={{ marginRight: 8 }}
-                            checked={selected}
-                          />
-                          {option.nombre_ingrediente}
-                        </li>
-                      )}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Ingredientes"
-                          placeholder="Seleccionar ingredientes..."
-                          error={Boolean(errors.ingredientes)}
-                          helperText={errors.ingredientes ? errors.ingredientes.message : ' '}
-                          variant="outlined"
-                        />
-                      )}
-                    />
-                  )}
-                />
-              </Box>
-
-          {/* Divider */}
-          <Grid xs={12}>
-            <Divider sx={{ my: 1 }} />
-          </Grid>
-
-          {/* Botones */}
-          <Grid xs={12}>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button type="submit" variant="contained"
-                sx={{ bgcolor: '#C0392B', color: '#fff', textTransform: 'none',
-                      borderRadius: 1, px: 4, py: 1.25, '&:hover': { bgcolor: '#a93226' } }}>
-                {modo === 'crear' ? 'Crear producto' : 'Guardar cambios'}
-              </Button>
-              <Button variant="outlined" startIcon={<ArrowBackIcon />}
-                onClick={() => navigate('/admin/productos')}
-                sx={{ color: '#1B2A4A', borderColor: 'rgba(27,42,74,0.3)',
-                      textTransform: 'none', borderRadius: 1,
-                      '&:hover': { borderColor: '#1B2A4A' } }}>
-                Cancelar
-              </Button>
-            </Box>
-          </Grid>
-
         </Grid>
+
+        {/* Ingredientes — fuera del Grid */}
+        <Box sx={{ mt: 2, width: '100%' }}>
+          <Controller
+            name="ingredientes"
+            control={control}
+            render={({ field }) => (
+              <Autocomplete
+                multiple
+                options={ingredientes}
+                disableCloseOnSelect
+                getOptionLabel={(option) => option.nombre_ingrediente ?? ''}
+                isOptionEqualToValue={(option, value) =>
+                  Number(option.id) === Number(value.id)
+                }
+                value={ingredientes.filter((i) =>
+                  (field.value ?? []).includes(Number(i.id))
+                )}
+                onChange={(_, newValue) => {
+                  field.onChange(newValue.map((i) => Number(i.id)));
+                }}
+                renderOption={(props, option, { selected }) => (
+                  <li {...props} key={option.id}>
+                    <Checkbox icon={icon} checkedIcon={checkedIcon}
+                      style={{ marginRight: 8 }} checked={selected} />
+                    {option.nombre_ingrediente}
+                  </li>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params}
+                    label="Ingredientes"
+                    placeholder="Seleccionar ingredientes..."
+                    error={Boolean(errors.ingredientes)}
+                    helperText={errors.ingredientes ? errors.ingredientes.message : ' '}
+                    variant="outlined" />
+                )}
+              />
+            )}
+          />
+        </Box>
+
+        <Divider sx={{ my: 2 }} />
+
+        {/* Botones */}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button type="submit" variant="contained"
+            sx={{ bgcolor: '#C0392B', color: '#fff', textTransform: 'none',
+                  borderRadius: 1, px: 4, py: 1.25, '&:hover': { bgcolor: '#a93226' } }}>
+            {modo === 'crear' ? 'Crear producto' : 'Guardar cambios'}
+          </Button>
+          <Button variant="outlined" startIcon={<ArrowBackIcon />}
+            onClick={() => navigate('/admin/productos')}
+            sx={{ color: '#1B2A4A', borderColor: 'rgba(27,42,74,0.3)',
+                  textTransform: 'none', borderRadius: 1,
+                  '&:hover': { borderColor: '#1B2A4A' } }}>
+            Cancelar
+          </Button>
+        </Box>
+
       </form>
     </Box>
   );

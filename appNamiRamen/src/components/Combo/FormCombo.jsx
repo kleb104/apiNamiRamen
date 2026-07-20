@@ -166,7 +166,7 @@ export function FormCombo({ modo }) {
     };
 
     if (modo === 'crear') {
-      ComboService.getCombosAdmin()
+      ComboService.getTodosLosCombos()
         .then((res) => {
           const todos = res.data?.data ?? [];
           const existe = todos.find(

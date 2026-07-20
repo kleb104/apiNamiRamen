@@ -42,8 +42,10 @@ class MenuController
         echo json_encode(["error" => false, "data" => $menu]);
     }
 
-    public function store($input)
+    public function create()
     {
+        $input = json_decode(file_get_contents('php://input'), true);
+
         $requeridos = ['nombre_menu', 'hora_apertura', 'hora_cierre', 'creado_por'];
         foreach ($requeridos as $campo) {
             if (empty($input[$campo])) {
@@ -52,6 +54,7 @@ class MenuController
                 return;
             }
         }
+
         $fecha_inicio = $input['fecha_inicio'] ?? null;
         $fecha_fin    = $input['fecha_fin']    ?? null;
 
@@ -64,7 +67,6 @@ class MenuController
             $input['creado_por']
         );
 
-        // Agregar items (productos y combos)
         if (!empty($input['items']) && is_array($input['items'])) {
             foreach ($input['items'] as $item) {
                 $id_producto = $item['id_producto'] ?? null;

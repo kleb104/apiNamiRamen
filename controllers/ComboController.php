@@ -65,8 +65,10 @@ class ComboController
         echo json_encode(["error" => false, "data" => $combo]);
     }
 
-    public function store($input)
+    public function create()
     {
+        $input = json_decode(file_get_contents('php://input'), true);
+
         $requeridos = ['nombre_combo', 'precio_especial', 'id_categoria'];
         foreach ($requeridos as $campo) {
             if (!isset($input[$campo]) || $input[$campo] === '') {
@@ -89,10 +91,9 @@ class ComboController
             $input['id_categoria']
         );
 
-        // productos viene como [{id_producto, es_principal}]
         if (!empty($input['productos']) && is_array($input['productos'])) {
             foreach ($input['productos'] as $item) {
-                $id_prod     = $item['id_producto']  ?? $item;
+                $id_prod      = $item['id_producto']  ?? $item;
                 $es_principal = $item['es_principal'] ?? 0;
                 $this->model->agregarProductoConPrincipal($id, $id_prod, 1, $es_principal);
             }

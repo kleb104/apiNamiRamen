@@ -4,7 +4,11 @@ const BASE_URL = import.meta.env.VITE_BASE_URL + 'ProcesoPreparacionController';
 class ProcesoService {
   getProcesos()      { return axios.get(BASE_URL); }
   getProcesoById(id) { return axios.get(BASE_URL + '/get/' + id); }
-  createProceso(data) { return axios.post(BASE_URL, JSON.stringify(data)); }
+  createProceso(data) {
+    return axios.post(BASE_URL, JSON.stringify(data), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
   updateProceso(id, data) {
     return axios({
       method: 'put',

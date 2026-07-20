@@ -9,7 +9,9 @@ class ComboService {
     return axios.get(BASE_URL + '/' + id);
   }
   createCombo(combo) {
-    return axios.post(BASE_URL, JSON.stringify(combo));
+    return axios.post(BASE_URL, JSON.stringify(combo), {
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
   updateCombo(combo) {
     return axios({

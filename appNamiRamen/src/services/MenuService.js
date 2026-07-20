@@ -5,7 +5,11 @@ class MenuService {
   getMenus()          { return axios.get(BASE_URL); }
   getMenuById(id)     { return axios.get(BASE_URL + '/get/' + id); }
   getMenuActivo()     { return axios.get(BASE_URL + '/activo'); }
-  createMenu(data)    { return axios.post(BASE_URL, JSON.stringify(data)); }
+  createMenu(data) {
+    return axios.post(BASE_URL, JSON.stringify(data), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
   updateMenu(data) {
     return axios({
       method: 'put',

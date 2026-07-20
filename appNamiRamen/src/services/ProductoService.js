@@ -16,7 +16,11 @@ class ProductoService {
   }
 
   createProducto(producto) {
-    return axios.post(BASE_URL, JSON.stringify(producto));
+    return axios.post(BASE_URL, JSON.stringify(producto), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 
   updateProducto(producto) {
