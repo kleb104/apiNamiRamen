@@ -17,5 +17,8 @@ class MenuService {
       data: JSON.stringify(data),
     });
   }
+  deleteMenu(id) {
+    return axios.delete(BASE_URL + '/delete/' + id);
+  }
 }
 export default new MenuService();

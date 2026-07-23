@@ -97,4 +97,10 @@ class ProcesoPreparacionController
         $this->model->delete($id_producto, $id_estacion);
         echo json_encode(["error" => false, "mensaje" => "Paso eliminado"]);
     }
+    
+    public function delete($id)
+    {
+        $this->model->deleteByProducto($id);
+        echo json_encode(["error" => false, "mensaje" => "Proceso eliminado"]);
+    }
 }

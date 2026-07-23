@@ -16,5 +16,8 @@ class ProcesoService {
       data: JSON.stringify(data),
     });
   }
+  deleteProceso(id) {
+    return axios.delete(BASE_URL + '/delete/' + id);
+  }
 }
 export default new ProcesoService();

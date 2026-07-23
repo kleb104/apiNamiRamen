@@ -16,7 +16,7 @@ import TablaAdminCombos from './components/Combo/TablaAdminCombos';
 import { FormCombo }    from './components/Combo/FormCombo';
 import { ListadoMenus }    from './components/Menu/ListadoMenus';
 import { MenuDisponible }  from './components/Menu/MenuDisponible';
-import { ListadoProceso } from './components/Proceso/ListadoProceso';
+import { ListadoProcesos } from './components/Proceso/ListadoProcesos';
 import { DetalleProceso }  from './components/Proceso/DetalleProceso';
 import { FormProceso } from './components/Proceso/FormProceso';
 import { FormMenu } from './components/Menu/FormMenu';
@@ -34,7 +34,7 @@ const rutas = createBrowserRouter([
       { path: '/combos/:id',       element: <DetalleCombo />                          },
       { path: '/menus',           element: <ListadoMenus />                           },
       { path: '/menu-disponible', element: <MenuDisponible />                         },
-      { path: '/procesos',        element: <ListadoProceso />                         },
+      { path: '/procesos',        element: <ListadoProcesos />                         },
       { path: '/procesos/:id',    element: <DetalleProceso />                         },
       { path: '/admin/combos',            element: <TablaAdminCombos />               },
       { path: '/admin/productos/crear',     element: <FormProducto modo="crear" />    },

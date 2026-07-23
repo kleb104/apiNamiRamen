@@ -122,4 +122,17 @@ class MenuController
         $this->model->quitarItem($id_item);
         echo json_encode(["error" => false, "mensaje" => "Item removido del menú"]);
     }
+
+    public function delete($id)
+    {
+        $this->model->quitarTodosItems($id);
+        $this->model->delete($id);
+        echo json_encode(["error" => false, "mensaje" => "Menú eliminado"]);
+    }
+    
+    public function desactivar($id)
+    {
+        $this->model->desactivar($id);
+        echo json_encode(["error" => false, "mensaje" => "Menú desactivado"]);
+    }
 }

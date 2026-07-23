@@ -182,4 +182,14 @@ class ProductoModel
         }
     }
 
+    public function activar($id)
+    {
+        try {
+            $vSql = "UPDATE productos SET activo = TRUE WHERE id = $id";
+            return $this->enlace->executeSQL_DML($vSql);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
 }

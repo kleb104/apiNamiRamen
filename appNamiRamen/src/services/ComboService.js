@@ -23,5 +23,22 @@ class ComboService {
   getTodosLosCombos() {
     return axios.get(BASE_URL + '/todos');
   }
+  deleteCombo(id) {
+    return axios.delete(BASE_URL + '/delete/' + id);
+  }
+  desactivarCombo(id) {
+    return axios({
+      method: 'put',
+      url: BASE_URL + '/desactivar/' + id,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+  activarCombo(id) {
+    return axios({
+      method: 'put',
+      url: BASE_URL + '/activar/' + id,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 }
 export default new ComboService();

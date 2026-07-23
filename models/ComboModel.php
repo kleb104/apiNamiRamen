@@ -191,4 +191,23 @@ class ComboModel
         }
     }
 
+    public function desactivar($id)
+    {
+        try {
+            $vSql = "UPDATE combos SET activo = FALSE WHERE id = $id";
+            return $this->enlace->executeSQL_DML($vSql);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
+
+    public function activar($id)
+    {
+        try {
+            $vSql = "UPDATE combos SET activo = TRUE WHERE id = $id";
+            return $this->enlace->executeSQL_DML($vSql);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
 }

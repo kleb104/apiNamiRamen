@@ -167,4 +167,18 @@ class ProductoController
         $this->model->quitarIngrediente($id, $id_ingrediente);
         echo json_encode(["error" => false, "mensaje" => "Ingrediente removido"]);
     }
+
+    public function delete($id)
+    {
+        $this->model->quitarTodosIngredientes($id);
+        $this->model->delete($id);
+        echo json_encode(["error" => false, "mensaje" => "Producto eliminado"]);
+    }
+
+    public function activar($id)
+    {
+        $this->model->activar($id);
+        echo json_encode(["error" => false, "mensaje" => "Producto activado"]);
+    }
+
 }

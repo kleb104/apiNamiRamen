@@ -155,4 +155,13 @@ class MenuModel
         }
     }
 
+    public function desactivar($id)
+    {
+        try {
+            $vSql = "UPDATE menus SET activo = FALSE WHERE id = $id";
+            return $this->enlace->executeSQL_DML($vSql);
+        } catch (Exception $e) {
+            handleException($e);
+        }
+    }
 }

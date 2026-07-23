@@ -34,8 +34,21 @@ class ProductoService {
   desactivarProducto(id) {
     return axios({
       method: 'put',
-      url: BASE_URL + '/' + id + '/desactivar',
+      url: BASE_URL + '/desactivar/' + id,
+      headers: { 'Content-Type': 'application/json' },
     });
+  }
+
+  activarProducto(id) {
+    return axios({
+      method: 'put',
+      url: BASE_URL + '/activar/' + id,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  deleteProducto(id) {
+    return axios.delete(BASE_URL + '/delete/' + id);
   }
 }
 export default new ProductoService();

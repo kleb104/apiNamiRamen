@@ -159,4 +159,23 @@ class ComboController
         $this->model->quitarProducto($id, $id_producto);
         echo json_encode(["error" => false, "mensaje" => "Producto removido del combo"]);
     }
+
+    public function delete($id)
+    {
+        $this->model->quitarTodosProductos($id);
+        $this->model->delete($id);
+        echo json_encode(["error" => false, "mensaje" => "Combo eliminado"]);
+    }
+
+    public function desactivar($id)
+    {
+        $this->model->desactivar($id);
+        echo json_encode(["error" => false, "mensaje" => "Combo desactivado"]);
+    }
+
+    public function activar($id)
+    {
+        $this->model->activar($id);
+        echo json_encode(["error" => false, "mensaje" => "Combo activado"]);
+    }
 }
